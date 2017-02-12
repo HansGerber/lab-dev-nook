@@ -14,4 +14,16 @@
             </audio>
         </div>
 </div>
+<script>
+    var as = document.getElementsByTagName("audio");
+    for(var i = 0; i < as.length; i++){
+        as[i].addEventListener("play", function() {
+            var as = document.getElementsByTagName("audio");
+            for(var i = 0; i < as.length; i++){
+                as[i].pause();
+            }
+            this.play();
+        }, false);
+    }
+</script>
 <?php require_once "_footer.php"; ?>
