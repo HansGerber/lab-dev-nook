@@ -3,13 +3,13 @@
 	function getBasePath(){
 		return str_replace("/".basename($_SERVER["PHP_SELF"]), "", $_SERVER["PHP_SELF"]);
 	}
-	
+
 	function getPath(){
-		return str_replace(getBasePath(), "", $_SERVER["REDIRECT_URL"]);
+		return preg_replace("/^".str_replace("/", "\/", preg_quote(getBasePath()))."/", "", $_SERVER["REQUEST_URI"]);
 	}
 	
 	function makePath($path = ""){
-		return getBasePath()."/$path";
+		return "/".getBasePath()."/$path";
 	}
 	
 	function getView($path, $params = array()){
