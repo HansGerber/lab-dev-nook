@@ -17,12 +17,14 @@
 <script>
     var as = document.getElementsByTagName("audio");
     for(var i = 0; i < as.length; i++){
+        as[i].setAttribute("data-count", i);
         as[i].addEventListener("play", function() {
-            var as = document.getElementsByTagName("audio");
-            for(var i = 0; i < as.length; i++){
-                as[i].pause();
+            var _as = document.getElementsByTagName("audio");
+            for(var _i = 0; _i < _as.length; _i++){
+                if(_i != this.getAttribute("data-count")){
+                    _as[_i].pause();
+                }
             }
-            this.play();
         }, false);
     }
 </script>
