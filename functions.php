@@ -9,7 +9,7 @@
 	}
 	
 	function makePath($path = ""){
-		return "/".getBasePath()."/$path";
+		return getBasePath()."/$path";
 	}
 	
 	function getView($path, $params = array()){
