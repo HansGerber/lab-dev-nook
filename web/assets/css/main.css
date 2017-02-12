@@ -6,8 +6,100 @@ body {
 	padding:0;
 	margin:0;
 	font:100%/1.5 helvetica, sans serif;
+        background:#ddd;
+}
+a {
+    color:#f90;
+}
+a:hover {
+    color:#999;
 }
 h1, h2, h3 {
 	text-transform:uppercase;
 	font-weight:normal;
+}
+.right {
+    float:right;
+}
+.boxShadow {
+    box-shadow: 0 0 10px #999;
+}
+.clear {
+    clear:both;
+}
+#page {
+    width:800px;
+    margin:0 auto;
+    background:#fff;
+}
+#header {
+    background:#555;
+    color:#fff;
+    position:relative;
+    z-index:1002;
+}
+#header h1 {
+    margin:0;
+    padding:20px 30px;
+    color:#fff;
+    text-shadow: 0 0 5px #fff;
+    white-space: nowrap;
+}
+#header h1 span.lab {
+    color:#f90;
+    text-shadow: 0 0 5px #f90;
+}
+#navi,
+#content {
+    float:left;
+    position:relative;
+}
+#navi {
+    width:200px;
+    z-index: 1000;
+}
+#navi a {
+    padding:10px 20px;
+    display:block;
+    text-decoration: none;
+    color:#555;
+    background:#ddd;
+    border: solid 1px #fff;
+    border-bottom: none;
+}
+#navi a:last-child {
+    border-bottom: solid 1px #fff;
+}
+#navi a:hover {
+    background:#ccc;
+}
+#navi a.active {
+    background:#f90;
+    color:#333;
+}
+#navi a.active:hover {
+    background:#f58800;
+}
+#content {
+    width:600px;
+    z-index: 1001;
+}
+#content .contBox {
+    padding:10px 20px;
+}
+#content .contBox h1 {
+    color:#999;
+}
+#content .contBox h1:first-child {
+    margin-top:0;
+}
+#footer {
+    padding:20px;
+    background:#555;
+    position: relative;
+    z-index: 1002;
+}
+#footer a {
+    color:#fff;
+    font-size:0.8em;
 }

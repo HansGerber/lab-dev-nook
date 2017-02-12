@@ -1,8 +1,6 @@
 <?php require_once "_header.php"; ?>
 <div class="contBox">
-	<h1>Have a nice day :)</h1>
-        <p>
-            This site is under construction.
-        <p>
+	<h1>Downloads</h1>
+        No downloads yet.
 </div>
 <?php require_once "_footer.php"; ?>

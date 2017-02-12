@@ -1,6 +1,6 @@
 <?php require_once "_header.php"; ?>
 <div class="contBox">
-	<h3>404 - page not found</h3>
+	<h1>404 - page not found</h1>
 	<p>
 		Possible reasons are :
 	</p>

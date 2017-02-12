@@ -1,5 +1,4 @@
 <?php
-	function indexController() {
-		echo getView("home.php");
-	}
-?>
+	
+    require_once "../controllers/mainController.php";
+    require_once "../controllers/apiController.php";
