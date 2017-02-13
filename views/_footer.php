@@ -7,7 +7,12 @@
 		</div>
                 <script>
                     function setContMinHeight(){
-                        document.getElementById("content").style.minHeight = (window.innerHeight - 150) + "px";
+                        var w = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+                        if(w >= 800){
+                            document.getElementById("content").style.minHeight = (window.innerHeight - 150) + "px";
+                        } else {
+                            document.getElementById("content").style.minHeight = "0";
+                        }
                     }
                     setContMinHeight();
                     addEventListener("resize", function() {
