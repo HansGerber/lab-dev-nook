@@ -108,6 +108,9 @@ h1, h2, h3 {
     font-size:0.8em;
 }
 @media all and (max-width:800px){
+    #page {
+        width:auto;
+    }
     #navi,
     #content {
         float:none;
