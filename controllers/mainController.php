@@ -13,7 +13,7 @@
             if(!@$data["name"] || !@$data["email"] || !@$data["message"]){
                 $_SESSION["contact_result"] = array("success" => false, "error" => "emptyData");
             } else {
-                if(!@$_POST["g-recaptcha-response"]){
+                if(verifyCaptcha() == false){
                     $_SESSION["contact_result"] = array("success" => false, "error" => "invalidCaptcha");
                 } else {
                     $_SESSION["contact_result"] = runModel("addContactMessage", $data);

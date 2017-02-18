@@ -1,7 +1,6 @@
 			</div>
                         <div class="clear"></div>
                         <div id="footer" class="boxShadow">
-                            <a class="right" href="<?php echo makePath("contact"); ?>">contact</a>
                             <div class="clear"></div>
                         </div>
 		</div>

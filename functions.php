@@ -73,7 +73,40 @@
             $conf = getConf();
             $sitekey = @$conf["recaptcha"][$conf["env"]]["sitekey"];
             if($sitekey){
+                echo '<script src="https://www.google.com/recaptcha/api.js"></script>'."\n";
                 echo '<div class="g-recaptcha" data-sitekey="'.$sitekey.'"></div>';
             }
+        }
+        
+        function verifyCaptcha(){
+            $conf = getConf();
+            $captchaResponse = @$_POST["g-recaptcha-response"];
+            if($captchaResponse){
+                $ch = curl_init("https://www.google.com/recaptcha/api/siteverify");
+                curl_setopt_array($ch, array(
+                    CURLOPT_RETURNTRANSFER => true,
+                    CURLOPT_SSL_VERIFYPEER => false,
+                    CURLOPT_POSTFIELDS => http_build_query(array(
+                        "secret" => @$conf["recaptcha"][$conf["env"]]["secret"],
+                        "response" => $captchaResponse
+                    ))
+                ));
+
+                $resultData = curl_exec($ch);
+                write2log("verifyCaptcha() : ".$resultData);
+                if($resultData === false){
+                    write2log("verifyCaptcha() curl_error : ".curl_error($ch), "error");
+                    return false;
+                } else {
+                    $resultData = json_decode($resultData);
+                    if($resultData->success == false){
+                        write2log("verifyCaptcha() : ".json_encode($resultData));
+                        return false;
+                    }
+                }
+                curl_close($ch);
+                return true;
+            }
+            return false;
         }
 ?>

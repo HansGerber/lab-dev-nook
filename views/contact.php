@@ -1,5 +1,4 @@
 <?php require_once "_header.php"; ?>
-<script src='https://www.google.com/recaptcha/api.js'></script>
 <style>
     #messageForm > div {
         padding:10px 0;
