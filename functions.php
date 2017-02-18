@@ -28,7 +28,7 @@
                 }
             }
             $f = fopen($logFilePath, "a+");
-            fwrite($f, "[".date("Y-m-d H:i:s")."][$lvl] $text");
+            fwrite($f, "[".date("Y-m-d H:i:s")."][$lvl] $text".PHP_EOL);
             fclose($f);
             return true;
         }
