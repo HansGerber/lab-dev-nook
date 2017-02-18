@@ -8,14 +8,18 @@
         $data = @$_POST["contact"];
         $result = array();
 
-        if($data){  
+        if($data){
             header("location:".makePath("contact"));
             if(!@$data["name"] || !@$data["email"] || !@$data["message"]){
                 $_SESSION["contact_result"] = array("success" => false, "error" => "emptyData");
             } else {
-                $_SESSION["contact_result"] = runModel("addContactMessage", $data);
-                if($_SESSION["contact_result"]["success"] != true){
-                    $_SESSION["contact_result"]["error_sent_data"] = $data;
+                if(!@$_POST["g-recaptcha-response"]){
+                    $_SESSION["contact_result"] = array("success" => false, "error" => "invalidCaptcha");
+                } else {
+                    $_SESSION["contact_result"] = runModel("addContactMessage", $data);
+                    if($_SESSION["contact_result"]["success"] != true){
+                        $_SESSION["contact_result"]["error_sent_data"] = $data;
+                    }
                 }
             }
         } else {
@@ -33,7 +37,7 @@
             ));
         } else {
             echo getView("contact.php", array(
-                "result" => $result
+                "result" => $result,
             ));
         }
     }

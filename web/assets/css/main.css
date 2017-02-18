@@ -38,12 +38,15 @@ h1, h2, h3 {
     position:relative;
     z-index:1002;
 }
-#header h1 {
+#header h1  {
     margin:0;
     padding:20px 30px;
-    color:#fff;
     text-shadow: 0 0 5px #fff;
     white-space: nowrap;
+}
+#header h1 a {
+    color:#fff;
+    text-decoration:none;
 }
 #header h1 span.lab {
     color:#f90;

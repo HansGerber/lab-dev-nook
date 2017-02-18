@@ -1,14 +1,20 @@
 <?php require_once "_header.php"; ?>
 
 <div class="contBox">
+        <h1>Contact</h1>
         <?php 
             if($result["success"] == true){
         ?>
-	<h1>Contact sent</h1>
+        <strong>Message sent</strong>
         <?php
             } else {
         ?>
-        <h1>Error while sending contact.</h1>
+        
+            <strong>Failed to send message</strong><br><br>
+            Have you filled in all form fields?<br>
+            If yes this might fail due to technical difficulties and we kindly ask you to try it again in a few minutes.<br><br>
+            Sorry for the inconvinience
+        
         <?php
             }
         ?>

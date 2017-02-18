@@ -11,6 +11,18 @@
 	function makePath($path = ""){
 		return getBasePath()."/$path";
 	}
+        
+        function getConf($key = null){
+            global $_conf;
+            if($key){
+                if(isset($_conf[$key])){
+                    return $_conf[$key];
+                }
+            } else {
+                return $_conf;
+            }
+            return null;
+        }
 	
 	function getView($path, $params = array()){
 		extract($params);
@@ -55,5 +67,13 @@
                 throw new \Exception("Model '$modelName' does not exist!");
             }
             return $result;
+        }
+        
+        function printCaptcha(){
+            $conf = getConf();
+            $sitekey = @$conf["recaptcha"][$conf["env"]]["sitekey"];
+            if($sitekey){
+                echo '<div class="g-recaptcha" data-sitekey="'.$sitekey.'"></div>';
+            }
         }
 ?>

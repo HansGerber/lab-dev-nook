@@ -20,7 +20,7 @@
             </script>
 		<div id="page" class="boxShadow">
 			<div id="header" class="boxShadow">
-                            <h1><span class="lab">lab</span>.dev-nook.de</h1>
+                            <h1><a href="<?php echo makePath(); ?>"><span class="lab">lab</span>.dev-nook.de</a></h1>
 			</div>
 			<div id="navi">
                                 <a class="<?php if(getPath() == "/"){echo "active";} ?>" href="<?php echo makePath(); ?>">Home</a>
