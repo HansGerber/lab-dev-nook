@@ -11,7 +11,7 @@
         if($data){  
             header("location:".makePath("contact"));
             if(!@$data["name"] || !@$data["email"] || !@$data["message"]){
-                $_SESSION["contact_result"] = array("success" => false);
+                $_SESSION["contact_result"] = array("success" => false, "error" => "emptyData");
             } else {
                 $_SESSION["contact_result"] = addContactMessageModel($data);
                 if($_SESSION["contact_result"]["success"] == false){
