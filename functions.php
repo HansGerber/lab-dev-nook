@@ -32,4 +32,28 @@
             fclose($f);
             return true;
         }
+        
+        function runModel($name, $data = array()){
+            global $_conf;
+            $sql = $_conf["sql"];
+            $result = array ("success" => false);
+            $modelParams = array("params" => array (
+                "sql" => $sql,
+                "data" => $data
+            ));
+
+            $modelName = $name.'Model';
+            if(function_exists($modelName)){
+                if($c = new mysqli($sql["server"], $sql["user"], $sql["pass"])){
+                    $modelParams["params"]["sql"]["connection"] = $c;
+                    $result = call_user_func_array($modelName, $modelParams);
+                    $c->close();
+                } else {
+                    $result["error"] = ($c->connect_error ? $c->connect_error : $c->error);
+                }
+            } else {
+                throw new \Exception("Model '$modelName' does not exist!");
+            }
+            return $result;
+        }
 ?>

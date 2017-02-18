@@ -13,8 +13,8 @@
             if(!@$data["name"] || !@$data["email"] || !@$data["message"]){
                 $_SESSION["contact_result"] = array("success" => false, "error" => "emptyData");
             } else {
-                $_SESSION["contact_result"] = addContactMessageModel($data);
-                if($_SESSION["contact_result"]["success"] == false){
+                $_SESSION["contact_result"] = runModel("addContactMessage", $data);
+                if($_SESSION["contact_result"]["success"] != true){
                     $_SESSION["contact_result"]["error_sent_data"] = $data;
                 }
             }
@@ -22,6 +22,7 @@
             if(isset($_SESSION["contact_result"])){
                 $result = $_SESSION["contact_result"];
                 unset($_SESSION["contact_result"]);
+                var_dump($result);
             }
         }
         if(isset($result["success"])){
