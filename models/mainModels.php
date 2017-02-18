@@ -16,6 +16,8 @@ function addContactMessageModel($data){
             '".date("Y-m-d H:i:s")."'
         )")){
             $result["success"] = true;
+        } else {
+            $result["error"] = ($c->connect_error ? $c->connect_error : $c->error);
         }
     }
     

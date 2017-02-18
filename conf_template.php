@@ -1,10 +1,11 @@
 <?php
 	$_conf = array (
-		"sql" => array (
-			"server" => "localhost",
-			"user" => "root",
-			"pass" => "",
-			"db" => "",
-		),
+            "sql" => array (
+                    "server" => "localhost",
+                    "user" => "root",
+                    "pass" => "",
+                    "db" => "",
+            ),
+            "logPath" => "../logs/",
 	);
 ?>
