@@ -11,6 +11,11 @@
         if($data){  
             header("location:".makePath("contact"));
             $_SESSION["contact_result"] = addContactMessageModel($data);
+        } else {
+            if(isset($_SESSION["contact_result"])){
+                $result = $_SESSION["contact_result"];
+                unset($_SESSION["contact_result"]);
+            }
         }
         if(isset($result["success"])){
             echo getView("contact-result.php", array(
