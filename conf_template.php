@@ -1,6 +1,6 @@
 <?php
 	$_conf = array (
-            "env" => "prod",
+            "env" => "live",
             "sql" => array (
                     "server" => "localhost",
                     "user" => "root",
