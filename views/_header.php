@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<title>Lab - DevNook</title>
-		<link rel="stylesheet" href="assets/css/main.css?201702191" />
+                <link rel="stylesheet" href="<?php echo makePath('assets/css/main.css'); ?>?201702191" />
 	</head>
 	<body>
             <noscript>
