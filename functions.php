@@ -93,7 +93,6 @@
                 ));
 
                 $resultData = curl_exec($ch);
-                write2log("verifyCaptcha() : ".$resultData);
                 if($resultData === false){
                     write2log("verifyCaptcha() curl_error : ".curl_error($ch), "error");
                     return false;
