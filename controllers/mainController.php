@@ -41,6 +41,10 @@
             ));
         }
     }
+    
+    function gamesController(){
+        echo getView("games.php");
+    }
 
     function downloadsController(){
         echo getView("downloads.php");

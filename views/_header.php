@@ -25,6 +25,7 @@
 			<div id="navi">
                                 <a class="<?php if(getPath() == "/"){echo "active";} ?>" href="<?php echo makePath(); ?>">Home</a>
                                 <a class="<?php if(getPath() == "/downloads"){echo "active";} ?>" href="<?php echo makePath("downloads"); ?>">Downloads</a>
+                                <a class="<?php if(getPath() == "/games"){echo "active";} ?>" href="<?php echo makePath("games"); ?>">Games</a>
                                 <a class="<?php if(getPath() == "/contact"){echo "active";} ?>" href="<?php echo makePath("contact"); ?>">Contact</a>
                                 <a class="boxShadow <?php if(getPath() == "/links"){echo "active";} ?>" href="<?php echo makePath("links"); ?>">Links</a>
 			</div>
