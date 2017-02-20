@@ -11,6 +11,9 @@
         border-collapse: collapse;
         width:100%;
     }
+    tr.selected td {
+        background:#9cf;
+    }
     .gameContainer th,
     .gameContainer td {
         border:solid 1px #ddd;
