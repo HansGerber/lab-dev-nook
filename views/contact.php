@@ -4,6 +4,7 @@
         padding:10px 0;
     }
     #messageForm input[type=text],
+    #messageForm select,
     #messageForm textarea {
         width: 100%;
         border:solid 1px #ccc;
@@ -20,6 +21,14 @@
             <div>
                 <label>E-Mail</label><br />
                 <input type="text" name="contact[email]" />
+            </div>
+            <div>
+                <label>Topic</label><br />
+                <select name="contact[topic]">
+                    <option value="0">- select -</option>
+                    <option value="1">Admin Request</option>
+                    <option value="2">other</option>
+                </select> 
             </div>
             <div>
                 <label>Message</label><br />
