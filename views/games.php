@@ -18,6 +18,7 @@
     .gameContainer td {
         border:solid 1px #ddd;
         padding:5px 10px;
+        text-align: center;
     }
     .gameContainer th {
         text-align: left;
@@ -43,8 +44,18 @@
                     <th width="70%">URL</th>
                 </tr>
                 <tr>
-                    <td>Counter Strike 1.6</td>
-                    <td>cs16.dev-nook.de:27015</td>
+                    <td valign="top">Counter Strike 1.6</td>
+                    <td valign="top">
+                        URL:
+                        <p>cs16.dev-nook.de:27015</p>
+                        INFO:
+                        <p>
+                            <a href="http://www.gametracker.com/server_info/92.51.166.49:27015/" target="_blank">
+                                <img src="http://cache.gametracker.com/server_info/92.51.166.49:27015/b_160_400_1_ffffff_c5c5c5_ffffff_000000_0_1_0.png"
+                                     border="0" width="160" height="248" alt=""/>
+                            </a>
+                        </p>
+                    </td>
                 </tr>
             </table>
         </div>
