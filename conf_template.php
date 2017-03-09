@@ -8,6 +8,10 @@
                     "db" => "",
             ),
             "logPath" => "../logs/",
+            "maintenance" => array (
+                "live" => false,
+                "dev" => false,
+            ),
             "recaptcha" => array (
                 "live" => array(
                     "sitekey" => "6LeZxikTAAAAAAXBOXTnBqk6QS6sPNfDeIB5n1As",
