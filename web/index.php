@@ -13,12 +13,7 @@
             $_path = getPath();
 
             if(isset($_url_mapping[$_path])){
-                    $controller = $_url_mapping[$_path]."Controller";
-                    if(function_exists($controller)){
-                        call_user_func_array($controller, array());
-                    } else {
-                        throw new \Exception("Controller '$controller' not found.");
-                    }
+                    runController($_url_mapping[$_path]."Controller", array());
             } else {
                     echo getView("404.php");
             }

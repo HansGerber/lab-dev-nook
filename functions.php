@@ -23,6 +23,11 @@
             }
             return null;
         }
+        
+        function getUrlMapping(){
+            global $_url_mapping;
+            return $_url_mapping;
+        }
 	
 	function getView($path, $params = array()){
 		extract($params);
@@ -43,6 +48,14 @@
             fwrite($f, "[".date("Y-m-d H:i:s")."][$lvl] $text".PHP_EOL);
             fclose($f);
             return true;
+        }
+        
+        function runController($controllerName, $params = array()){
+            if(function_exists($controllerName)){
+                call_user_func_array($controllerName, $params);
+            } else {
+                throw new \Exception("Controller '$controllerName' not found.");
+            }
         }
         
         function runModel($name, $data = array()){
