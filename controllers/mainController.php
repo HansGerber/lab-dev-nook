@@ -130,6 +130,15 @@
         }
         
         //create and send the image
-        header("content-type: image/jpg");
-        require_once "assets/images/d2jsp-signature.jpg";
+        $im = @imagecreatefromjpeg("assets/images/d2jsp-signature.jpg");
+        if(!$im){
+            header("content-type: image/png");
+            $im = imagecreatetruecolor(1, 1);
+            $color = imagecolorallocatealpha($im, 0, 0, 0, 0);
+            imagefill($im, 0, 0, $color);
+            imagepng($im);
+        } else {
+            header("content-type: image/jpg");
+            imagejpeg($im);
+        }
     }
