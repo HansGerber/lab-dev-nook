@@ -78,7 +78,7 @@
         $im = imagecreatetruecolor(320, 40);
         $text_color = imagecolorallocate($im, 0, 255, 0);
         if(file_exists($ttffile)){
-            imagettftext($im, 18, 0, 10, 28, $text_color, $ttffile, "Visitors : $counterVal");
+            imagettftext($im, 18, 0, 10, 28, $text_color, $ttffile, "$counterVal");
         } else {
             imagestring($im, 5, 10, 10, "$counterVal", $text_color);
         }
@@ -103,7 +103,7 @@
         $im = imagecreatetruecolor(320, 40);
         $text_color = imagecolorallocate($im, 0, 255, 0);
         if(file_exists($ttffile)){
-            imagettftext($im, 18, 0, 10, 28, $text_color, $ttffile, "Visitors : $counterVal");
+            imagettftext($im, 18, 0, 10, 28, $text_color, $ttffile, "$counterVal");
         } else {
             imagestring($im, 5, 10, 10, "$counterVal", $text_color);
         }
