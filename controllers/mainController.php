@@ -80,7 +80,7 @@
         if(file_exists($ttffile)){
             imagettftext($im, 18, 0, 10, 28, $text_color, $ttffile, "Visitors : $counterVal");
         } else {
-            imagestring($im, 5, 10, 10, "Visitors : $counterVal", $text_color);
+            imagestring($im, 5, 10, 10, "$counterVal", $text_color);
         }
         imagepng($im);
         imagedestroy($im);
@@ -105,7 +105,7 @@
         if(file_exists($ttffile)){
             imagettftext($im, 18, 0, 10, 28, $text_color, $ttffile, "Visitors : $counterVal");
         } else {
-            imagestring($im, 5, 10, 10, "Visitors : $counterVal", $text_color);
+            imagestring($im, 5, 10, 10, "$counterVal", $text_color);
         }
         imagepng($im);
         imagedestroy($im);
