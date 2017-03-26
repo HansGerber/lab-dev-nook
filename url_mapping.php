@@ -5,6 +5,7 @@
             "/games" => "games",
             "/downloads" => "downloads",
             "/links" => "links",
+            "/d2jsp-counter.jpg" => "d2jspCounter",
             
             /* API */
             

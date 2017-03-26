@@ -53,3 +53,9 @@
     function linksController(){
         echo getView("links.php");
     }
+
+    function d2jspCounterController(){
+        header("content-type: image/jpg");
+        
+        echo "broken image";
+    }
