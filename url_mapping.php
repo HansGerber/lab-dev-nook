@@ -5,7 +5,9 @@
             "/games" => "games",
             "/downloads" => "downloads",
             "/links" => "links",
-            "/d2jsp-counter.jpg" => "d2jspCounter",
+            "/d2jsp-profile-counter.png" => "d2jspProfileCounter",
+            "/d2jsp-post-counter.png" => "d2jspPostCounter",
+            "/d2jsp-post-counter-count.png" => "d2jspPostCounterCount",
             
             /* API */
             

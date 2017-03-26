@@ -8,7 +8,9 @@
 	require_once "../controllers.php";
 
         $_exclude_routes_from_maintenance = array (
-            "/d2jsp-counter.jpg",
+            "/d2jsp-counter.png",
+            "/d2jsp-post-counter.png",
+            "/d2jsp-post-counter-count.png",
         );
 
         $_path = getPath();
