@@ -62,11 +62,11 @@
         
         //handle the counter
         $counterFile = "../counter.txt";
+        if(!file_exists($counterFile)){ touch($counterFile); }
         $counterVal = file_get_contents($counterFile) * 1;
         if(!isset($_SESSION["d2jspVisited"])){
             if(@$_SERVER['HTTP_REFERER'] && preg_match("/^https?\:\/\/forums.d2jsp.org/", $_SERVER['HTTP_REFERER']) == 1){
                 $_SESSION["d2jspVisited"] = true;
-                if(!file_exists($counterFile)){ touch($counterFile); }
                 $counterVal++;
                 file_put_contents($counterFile, $counterVal);
             }
