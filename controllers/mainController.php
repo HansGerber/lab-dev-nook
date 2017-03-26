@@ -123,7 +123,7 @@
         if(
             @$_SERVER['HTTP_REFERER'] &&
             preg_match("/^https?\:\/\/forums.d2jsp.org/", $_SERVER['HTTP_REFERER']) == 1 &&
-            preg_match("/https?\:\/\/forums.d2jsp.org\/user\.php", $_SERVER['HTTP_REFERER']) != 1
+            preg_match("/https?\:\/\/forums.d2jsp.org\/user\.php/", $_SERVER['HTTP_REFERER']) != 1
         ){
             $counterVal++;
             file_put_contents($counterFile, $counterVal);
