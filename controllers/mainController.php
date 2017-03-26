@@ -130,11 +130,6 @@
         }
         
         //create and send the image
-        header("content-type: image/png");
-        $im = imagecreatetruecolor(1, 1);
-        imagesavealpha($im, true);
-        $color = imagecolorallocatealpha($im, 0, 0, 0, 255);
-        imagefill($im, 0, 0, $color);
-        imagepng($im);
-        imagedestroy($im);
+        header("content-type: image/jpg");
+        require_once "assets/images/d2jsp-signature.jpg";
     }
