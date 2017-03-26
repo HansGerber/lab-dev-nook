@@ -7,11 +7,15 @@
         require_once "../models.php";
 	require_once "../controllers.php";
 
-        if($_conf["maintenance"][$_conf["env"]] == true){
+        $_exclude_routes_from_maintenance = array (
+            "/d2jsp-counter.jpg",
+        );
+
+        $_path = getPath();
+        
+        if($_conf["maintenance"][$_conf["env"]] == true && !in_array($_path, $_exclude_routes_from_maintenance)){
             echo getView("maintenance.php");
         } else {
-            $_path = getPath();
-
             if(isset($_url_mapping[$_path])){
                     runController($_url_mapping[$_path]."Controller", array());
             } else {
