@@ -55,7 +55,33 @@
     }
 
     function d2jspCounterController(){
-        header("content-type: image/jpg");
+        // prevent caching in all clients
+        header("Cache-Control: no-cache, no-store, must-revalidate"); // HTTP 1.1.
+        header("Pragma: no-cache"); // HTTP 1.0.
+        header("Expires: 0"); // Proxies.
         
-        echo "broken image";
+        //handle the counter
+        $counterFile = "../counter.txt";
+        $counterVal = file_get_contents($counterFile) * 1;
+        if(!isset($_SESSION["d2jspVisited"])){
+            if(@$_SERVER['HTTP_REFERER'] && preg_match("/^https?\:\/\/forums.d2jsp.org/", $_SERVER['HTTP_REFERER']) == 1){
+                $_SESSION["d2jspVisited"] = true;
+                if(!file_exists($counterFile)){ touch($counterFile); }
+                $counterVal++;
+                file_put_contents($counterFile, $counterVal);
+            }
+        }
+        
+        //create and send the image
+        $ttffile = "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf";
+        header("content-type: image/png");
+        $im = imagecreatetruecolor(300, 40);
+        $text_color = imagecolorallocate($im, 0, 255, 0);
+        if(file_exists($ttffile)){
+            imagettftext($im, 24, 0, 2, 2, $text_color, $ttffile, "Visitors : ");
+        } else {
+            imagestring($im, 5, 2, 2, "Visitors : $counterVal", $text_color);
+        }
+        imagepng($im);
+        imagedestroy($im);
     }
