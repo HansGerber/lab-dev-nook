@@ -73,14 +73,14 @@
         }
         
         //create and send the image
-        $ttffile = "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf";
+        $ttffile = "assets/DejaVuSans-Bold.ttf";
         header("content-type: image/png");
-        $im = imagecreatetruecolor(300, 40);
+        $im = imagecreatetruecolor(320, 40);
         $text_color = imagecolorallocate($im, 0, 255, 0);
         if(file_exists($ttffile)){
-            imagettftext($im, 24, 0, 2, 2, $text_color, $ttffile, "Visitors : ");
+            imagettftext($im, 18, 0, 10, 28, $text_color, $ttffile, "Visitors : $counterVal");
         } else {
-            imagestring($im, 5, 2, 2, "Visitors : $counterVal", $text_color);
+            imagestring($im, 5, 10, 28, "Visitors : $counterVal", $text_color);
         }
         imagepng($im);
         imagedestroy($im);
