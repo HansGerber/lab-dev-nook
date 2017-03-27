@@ -86,5 +86,6 @@
             header("content-type: image/jpg");
             imagejpeg($im);
         }
+        imagedestroy($im);
     }
 ?>
