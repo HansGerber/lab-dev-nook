@@ -11,7 +11,7 @@
             "/d2jsp-profile-counter.png",
             "/d2jsp-post-counter.png",
             "/d2jsp-post-counter-count.jpg",
-            "d2jsp/test.jpg",
+            "/d2jsp/test.jpg",
         );
 
         $_path = getPath();
