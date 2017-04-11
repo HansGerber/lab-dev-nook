@@ -88,4 +88,15 @@
         }
         imagedestroy($im);
     }
+    
+    function d2jspTestController(){
+        try {
+            $f = fopen("test_log.txt", "a+");
+            fwrite($f, json_encode($_SERVER).PHP_EOL);
+            fclose($f);
+        } catch (\Exception $ex) {}
+        $img = imagecreatetruecolor(1, 1);
+        header("content-type: image/jpg");
+        imagejpeg($im);
+    }
 ?>
