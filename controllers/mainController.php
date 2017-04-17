@@ -67,8 +67,6 @@
                                 "fileid" => $fileId,
                             );
                             $upLoadToDatabase = runModel("addUpload", $data);
-                            print_r($data);
-                            print_r($upLoadToDatabase);
                             die("success");
                         } else {
                             die("copyFail");
