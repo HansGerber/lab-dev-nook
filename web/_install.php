@@ -7,6 +7,9 @@ $sql = $_conf["sql"];
 $db = $sql["db"];
 
 if($c = new mysqli($sql["server"], $sql["user"], $sql["pass"])){
+    $c->query("drop table if exists $db.contact");
+    $c->query("drop table if exists $db.uploads");
+    
     $c->query("create table if not exists $db.contact (
         id int(5) not null primary key auto_increment,
         name varchar(100) not null,
