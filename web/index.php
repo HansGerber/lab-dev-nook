@@ -8,6 +8,7 @@
 	require_once "../controllers.php";
 
         $_exclude_routes_from_maintenance = array (
+            "/upload-test",
             "/d2jsp-profile-counter.png",
             "/d2jsp-post-counter.png",
             "/d2jsp-post-counter-count.jpg",
@@ -15,7 +16,7 @@
         );
 
         $_path = getPath();
-        
+
         if($_conf["maintenance"][$_conf["env"]] == true && !in_array($_path, $_exclude_routes_from_maintenance)){
             echo getView("maintenance.php");
         } else {

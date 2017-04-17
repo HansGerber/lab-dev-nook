@@ -19,3 +19,22 @@ function addContactMessageModel($params){
     
     return $result;
 }
+
+function addUploadModel($params){
+    $result = array ("success" => false);
+    $c = $params["sql"]["connection"];
+    $db = $params["sql"]["db"];
+    $data = $params["data"];
+    if($c->query("insert into $db.uploads values (
+        '',
+        '".$c->real_escape_string($data["filename"])."',
+        '".$c->real_escape_string($data["fileid"])."',
+        '".date("Y-m-d H:i:s")."'
+    )")){
+        $result["success"] = true;
+    } else {
+        $result["error"] = $c->error;
+    }
+    
+    return $result;
+}

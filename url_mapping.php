@@ -5,6 +5,7 @@
             "/games" => "games",
             "/downloads" => "downloads",
             "/links" => "links",
+            "/upload-test" => "uploadTest",
             "/d2jsp-profile-counter.png" => "d2jspProfileCounter",
             "/d2jsp-post-counter.png" => "d2jspPostCounter",
             "/d2jsp-post-counter-count.jpg" => "d2jspPostCounterCount",

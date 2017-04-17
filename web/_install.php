@@ -14,6 +14,13 @@ if($c = new mysqli($sql["server"], $sql["user"], $sql["pass"])){
         message text not null,
         adddate datetime not null
      )") or die("failed to create table contact : ".$c->error);
+    
+    $c->query("create table if not exists $db.uploads (
+        id int(5) not null primary key auto_increment,
+        filename varchar(100) not null,
+        fileid varchar(107) not null unique,
+        adddate datetime not null
+     )") or die("failed to create table uploads : ".$c->error);
 } else {
     die("connection fail");
 }
