@@ -179,7 +179,7 @@
                                             var completedPercentage = Math.round(evt.loaded / evt.total * 100);
                                             $("#progress").width(completedPercentage * 5);
                                             $("#progress div").html(completedPercentage + "%");
-                                            $("#estimated .dataLeft").html((evt.total - evt.loaded) + " / " + evt.total);
+                                            $("#estimated .dataLeft").html(evt.loaded + " / " + evt.total);
                                             currentlyLoaded = evt.loaded;
                                             if(estimateTimerRunning == false){
                                                     estimateTimerRunning = true;
