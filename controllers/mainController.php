@@ -133,7 +133,11 @@
         <form id="uploadForm" method="post" enctype="multipart/form-data">
                 <input type="file" name="uploadFile" id="uploadFile" />
                 <input type="submit" value="upload" id="sendUploadForm" />
+                <div id="uploadFileDetails">
+                    <div id="uploadFileDetailsSize"></div>
+                </div>
         </form>
+        
         <div id="progress_wrap">
                 <div id="progress"><div></div></div>
         </div>
@@ -165,7 +169,23 @@
                 var estimateTimerRunning = false;
                 var firstEstimationDone = false;
                 var fadeSpeed = 100;
-
+                $("#uploadFile").change(function() {
+                    if(this.files[0]){
+                        var size = this.files[0].size;
+                        var unit = "B";
+                        if(size >= 1024 * 1024 * 1024){
+                            size = size / 1024 / 1024 / 1024;
+                            unit = "GB";
+                        } else if(size >= 1024 * 1024){
+                            size = size / 1024 / 1024;
+                            unit = "MB";
+                        } else if(size >= 1024){
+                            size = size / 1024;
+                            unit = "KB";
+                        }
+                        $("#uploadFileDetailsSize").html('Size : ' + (Math.round(size * 100) / 100) + unit);
+                    }
+                });
                 $("#sendUploadForm").click(function(e) {
                         var formData = new FormData($("#uploadForm")[0]);
                         e.preventDefault();
@@ -204,6 +224,8 @@
                             processData: false,
                             // ... Other options like success and etc
                             success: function(responseData){
+                                    $("#uploadForm")[0].reset();
+                                    $("#uploadFileDetailsSize").html("");
                                     $("#progress, #estimated").stop().fadeOut(fadeSpeed);
                                     $("#inProgress").stop().fadeOut(fadeSpeed, function() {
                                             if(responseData === "success"){
@@ -214,6 +236,8 @@
                                     });
                             },
                             error: function() {
+                                    $("#uploadForm")[0].reset();
+                                    $("#uploadFileDetailsSize").html("");
                                     $("#progress, #estimated").stop().fadeOut(fadeSpeed);
                                     $("#inProgress").stop().fadeOut(fadeSpeed, function() {
                                             $("#error").fadeIn(fadeSpeed).delay(2000).fadeOut(fadeSpeed);
