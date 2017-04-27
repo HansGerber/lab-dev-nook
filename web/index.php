@@ -9,6 +9,7 @@
 
         $_exclude_routes_from_maintenance = array (
             "/upload-test",
+            "/upload-list-test",
             "/d2jsp-profile-counter.png",
             "/d2jsp-post-counter.png",
             "/d2jsp-post-counter-count.jpg",

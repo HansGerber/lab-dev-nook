@@ -27,6 +27,7 @@
                                 <a class="<?php if(getPath() == "/downloads"){echo "active";} ?>" href="<?php echo makePath("downloads"); ?>">Downloads</a>
                                 <a class="<?php if(getPath() == "/games"){echo "active";} ?>" href="<?php echo makePath("games"); ?>">Games</a>
                                 <a class="<?php if(getPath() == "/contact"){echo "active";} ?>" href="<?php echo makePath("contact"); ?>">Contact</a>
+                                <a class="<?php if(getPath() == "/upload-test"){echo "active";} ?>" href="<?php echo makePath("upload-test"); ?>">Upload</a>
                                 <a class="boxShadow <?php if(getPath() == "/links"){echo "active";} ?>" href="<?php echo makePath("links"); ?>">Links</a>
 			</div>
 			<div id="content" class="boxShadow">

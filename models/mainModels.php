@@ -38,3 +38,20 @@ function addUploadModel($params){
     
     return $result;
 }
+
+function getUploadsModel($params){
+    $result = array ("success" => false);
+    $c = $params["sql"]["connection"];
+    $db = $params["sql"]["db"];
+    if($res = $c->query("select * from $db.uploads order by adddate desc")){
+        while($r = $res->fetch_assoc()){
+            $result["data"] []= $r;
+        }
+        $res->free_result();
+        $result["success"] = true;
+    } else {
+        $result["error"] = $c->error;
+    }
+    
+    return $result;
+}
