@@ -30,6 +30,7 @@ var wsUrl = "ws://localhost";
 <?php } ?>
 var wsPort = 6020;
 var ws;
+var moveStepSize = 50;
 
 function genRandomName(){
 	name = ["John", "Pete", "Paul", "Mary", "Rick", "Jane", "Ben", "Brittany", "Kate", "Jimmy"][parseInt(Math.random() * 9.99)];
@@ -45,11 +46,11 @@ function moveLeft(){
 					return true;
 				}
 				if(myUser.life > 0){
-					myUser.posX -= 1;
+					myUser.posX -= moveStepSize;
 					document.getElementById("me").style.left = myUser.posX + "px";
 					ws.send("moveLeft");
 				}
-			}, 1
+			}, 100
 		);
 	}
 }
@@ -64,11 +65,11 @@ function moveUp(){
 					return true;
 				}
 				if(myUser.life > 0){
-					myUser.posY -= 1;
+					myUser.posY -= moveStepSize;
 					document.getElementById("me").style.top = myUser.posY + "px";
 					ws.send("moveUp");
 				}
-			}, 1
+			}, 100
 		);
 	}
 }
@@ -83,11 +84,11 @@ function moveRight(){
 					return true;
 				}
 				if(myUser.life > 0){
-					myUser.posX += 1;
+					myUser.posX += moveStepSize;
 					document.getElementById("me").style.left = myUser.posX + "px";
 					ws.send("moveRight");
 				}
-			}, 1
+			}, 100
 		);
 	}
 }
@@ -102,11 +103,11 @@ function moveDown(){
 					return true;
 				}
 				if(myUser.life > 0){
-					myUser.posY += 1;
+					myUser.posY += moveStepSize;
 					document.getElementById("me").style.top = myUser.posY + "px";
 					ws.send("moveDown");
 				}
-			}, 1
+			}, 100
 		);
 	}
 }

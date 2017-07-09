@@ -147,7 +147,7 @@ wss.on('connection', function connection(ws) {
 	var shotRecoveryDuration = 500;
 	var shotMaxDistance = 20;
 	var shotSpeed = 40;
-	var moveStepSize = 1;
+	var moveStepSize = 50;
 	
 	ws.on('message', function incoming(message) {
 		//console.log('received: %s', message);
