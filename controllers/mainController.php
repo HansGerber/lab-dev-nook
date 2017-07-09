@@ -60,7 +60,7 @@
                 if(isset($_FILES["uploadFile"])){
                         $fileName = str_replace(' ', '_', $_FILES['uploadFile']['name']);
                         $fileId = rand(1000000, 9999999)."_".$fileName;
-                        $uploadfile = "uploads/".$fileId;
+                        $uploadfile = "uploads/".$fileId."_";
                         if(move_uploaded_file($_FILES['uploadFile']['tmp_name'], $uploadfile)){
                             $data = array (
                                 "filename" => $fileName,
