@@ -9,7 +9,7 @@
             ),
             "logPath" => "../logs/",
             "maintenance" => array (
-                "live" => false,
+                "live" => true,
                 "dev" => false,
             ),
             "recaptcha" => array (
