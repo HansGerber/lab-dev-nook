@@ -15,7 +15,11 @@
     }
     
     if(isLoggedIn()){
-        
+?>
+<form method="post">
+    <input type="submit" value="logout">
+</form>
+<?php
     } else {
 ?>
 <div id="fb-root"></div>
