@@ -13,10 +13,11 @@
  data-button-type="continue_with"
  data-show-faces="false"
  data-auto-logout-link="false"
- data-use-continue-as="false"></div>
+ data-use-continue-as="false"
+ onlogin="fbLogin();"></div>
 
 <script>
-FB.login(function(){
-    alert("test");
-});
+function fbLogin(data){
+    console.log(data);
+}
 </script>
