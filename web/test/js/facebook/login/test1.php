@@ -14,7 +14,7 @@
  data-show-faces="false"
  data-auto-logout-link="false"
  data-use-continue-as="false"
- onlogin="fbLogin();"></div>
+ onlogin="fbLogin"></div>
 
 <script>
 function fbLogin(data){
