@@ -14,4 +14,9 @@
  data-show-faces="false"
  data-auto-logout-link="false"
  data-use-continue-as="false"></div>
- 
+
+<script>
+FB.login(function(){
+    alert("test");
+});
+</script>
