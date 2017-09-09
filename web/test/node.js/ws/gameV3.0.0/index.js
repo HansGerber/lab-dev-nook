@@ -1,10 +1,18 @@
+/*
+ *
+ */
+
 const WebSocket = require('ws');
 const crypto = require('crypto');
 
 const wss = new WebSocket.Server({ port: 6020 });
 var clients = {}, shots = {}, i = 0;
+var gameStateChanged = false, autoImcrementId = 0, updateRate = 50;
 var expPerLevel = 20;
-var gameStateChanged = false, autoImcrementId = 0;
+var shotRecoveryDuration = 500;
+var shotMaxDistance = 20;
+var shotSpeed = 40;
+var moveStepSize = 50;
 
 function printClients(){
 	console.log("List of clients:")
@@ -140,10 +148,6 @@ wss.on('connection', function connection(ws) {
 	console.log("Client connected")
 	var currentWsIndex = 0;
 	var shotRecovery = false;
-	var shotRecoveryDuration = 500;
-	var shotMaxDistance = 20;
-	var shotSpeed = 40;
-	var moveStepSize = 50;
 	
 	ws.on('message', function incoming(message) {
 		//console.log('received: %s', message);
@@ -264,5 +268,5 @@ setInterval(
 			gameStateChanged = false;
 		}
 	},
-	100
+	updateRate
 );
