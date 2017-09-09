@@ -1,3 +1,23 @@
+<?php
+    session_start();
+    
+    function isLoggedIn(){
+        if(isset($_SESSION["user"])){
+           return true;
+        }
+        return false;
+    }
+    
+    function logOut(){
+        if(isLoggedIn()){
+            unset($_SESSION["user"]);
+        }
+    }
+    
+    if(isLoggedIn()){
+        
+    } else {
+?>
 <div id="fb-root"></div>
 <script>(function(d, s, id) {
   var js, fjs = d.getElementsByTagName(s)[0];
@@ -21,3 +41,6 @@ function fbLogin(data){
     console.log(data);
 }
 </script>
+<?php
+    }
+?>
