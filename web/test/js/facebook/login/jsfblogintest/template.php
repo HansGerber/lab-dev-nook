@@ -1,16 +1,10 @@
 <script>
 
-function fbGetUserData(callback) {
+/*function fbGetUserData(callback) {
 	FB.api('/me', {fields: 'name, email'}, function(response) {
 		if(typeof callback == "function"){
 			callback(response);
 		}
-	});
-}
-
-function checkLoginState() {
-	FB.getLoginStatus(function(response) {
-		statusChangeCallback(response);
 	});
 }
 
@@ -24,7 +18,26 @@ function statusChangeCallback(response) {
 		console.log("Login-Status : " + response.status);
 	}
 }
-	
+
+function checkLoginState() {
+	FB.getLoginStatus(function(response) {
+		statusChangeCallback(response);
+	});
+}*/
+
+function fbLogin(){
+	FB.login(function(response) {
+		if (response.authResponse) {
+		 console.log('Welcome!  Fetching your information.... ');
+			FB.api('/me', {fields: 'email, name'}, function(response) {
+				console.log('data :', response);
+			});
+		} else {
+		 console.log('User cancelled login or did not fully authorize.');
+		}
+	});
+}
+
 // Load the SDK asynchronously
 (function(d, s, id) {
 	var js, fjs = d.getElementsByTagName(s)[0];
@@ -43,7 +56,6 @@ function statusChangeCallback(response) {
     version    : 'v2.8' // use graph api version 2.8
   });
   
-	checkLoginState();
  }
 
 </script>

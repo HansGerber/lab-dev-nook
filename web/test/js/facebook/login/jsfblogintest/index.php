@@ -41,10 +41,10 @@ function installDB(){
 	global $_db;
     
     if(!$_c->query("drop table if exists $_db.fbLoginTest_users")){
-        return array("status" => "error", "error" => $_c->error);
+        return array("satus" => "error", "error" => $_c->error);
     } else {
         if(!$_c->query("drop table if exists $_db.fbLoginTest_sessions")){
-            return array("status" => "error", "error" => $_c->error);
+            return array("satus" => "error", "error" => $_c->error);
         }
     }
     
@@ -53,10 +53,9 @@ function installDB(){
             name varchar(100) not null,
             email varchar(255) not null unique,
             password varchar(32),
-            smAcc tinyint(1) not null,
-            fbUserId varchar(15)
+            smAcc tinyint(1) not null
         )")){
-        return array("status" => "error", "error" => $_c->error);
+        return array("satus" => "error", "error" => $_c->error);
     }
     
     if(!$_c->query("create table $_db.fbLoginTest_sessions (
@@ -64,10 +63,10 @@ function installDB(){
             hash varchar(32) not null,
             expires datetime not null
         )")){
-        return array("status" => "error", "error" => $_c->error);
+        return array("satus" => "error", "error" => $_c->error);
     }
     
-    return array("status" => "ok", "error" => "");
+    return array("satus" => "ok", "error" => "");
 }
 
 function register($data){
@@ -152,6 +151,9 @@ function renderLoginModule($pathAfterLogin = ""){
 				</label>
 				<?php if($pathAfterLogin){ echo '<input type="hidden" name="login[returnPath]" value="'.$pathAfterLogin.'" />'; } ?>
 				<input type="submit" value="login" />
+				or
+				<div style="display:inline-block;margin-left:5px;padding:5px;
+				background:rgb(72, 98, 163);color:#fff;" onclick="fbLogin()">Login with Facebook</div>
 			</form>
 			<?php
 			return ob_get_clean();
