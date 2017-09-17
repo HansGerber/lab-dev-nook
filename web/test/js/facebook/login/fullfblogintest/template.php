@@ -21,7 +21,7 @@ function statusChangeCallback(response) {
 			console.log(r);
 		});
 	} else {
-		console.log("not logged in");
+		console.log("Login-Status : " + response.status);
 	}
 }
 	
