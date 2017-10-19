@@ -1,0 +1,27 @@
+{
+    "name": "test",
+    "license": "MIT",
+    "type": "project",
+    "description": "test",
+    "minimum-stability" : "dev",
+    
+    "require": {
+        
+        "maxpumpe/code-champain": "dev-master"
+       
+    },
+    
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://satis.dev-nook.de/dept1"
+        }
+    ],
+
+    
+    
+    "config": {
+        "bin-dir": "bin"
+    }
+    }
+

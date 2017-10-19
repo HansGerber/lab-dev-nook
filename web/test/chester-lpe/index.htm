@@ -1,0 +1,65 @@
+<style>
+#animationImage {
+	display:none;
+}
+</style>
+<div id="animationContainer">
+	<div id="animationLoader">
+		loading ...
+	</div>
+	<img id="animationImage" />
+</div>
+<script>
+var imagePath = 'bilder/';
+var images = [];
+var imageCount = 46;
+var imageLoadedCount = 0;
+var animationSpeed = 50;
+var currentAnimationImage = 0;
+
+var animationContainer = document.getElementById("animationContainer");
+var animationLoader = document.getElementById("animationLoader");
+var animationImage = document.getElementById("animationImage");
+
+function initAnimation(){
+	var index = 0, imageFilePath = "";
+	for(var i = 0; i < imageCount; i++){
+		index = i;
+		if(i < 10){
+			index = "0" + i;
+		}
+		imageFilePath = imagePath + "Impressionism_Master01_000" + index + ".png";
+		
+		var _imageLoader = new Image();
+		_imageLoader.onload = function() {
+			imageLoadedCount++;
+			if(imageLoadedCount >= imageCount){
+				startAnimation();
+			}
+		}
+		_imageLoader.src = imageFilePath;
+		
+		images.push(imageFilePath);
+	}
+}
+
+function runAnimation() {
+	var animate = setInterval(function() {
+	document.title = currentAnimationImage;
+		if(currentAnimationImage >= imageCount - 1){
+			clearInterval(animate);
+			return true;
+		}
+		animationImage.src = images[currentAnimationImage++];
+	}, animationSpeed);
+}
+
+function startAnimation(){
+	animationLoader.style.display = "none";
+	animationImage.style.display = "block";
+	animationImage.src = images[0];
+	runAnimation();
+}
+
+initAnimation();
+</script>

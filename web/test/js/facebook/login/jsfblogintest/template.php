@@ -1,29 +1,33 @@
 <script>
 
-/*function fbGetUserData(callback) {
-	FB.api('/me', {fields: 'name, email'}, function(response) {
-		if(typeof callback == "function"){
-			callback(response);
+function loginUser(data, callback){
+	if(
+		typeof data != "undefined" &&
+		typeof data.name != "undefined" &&
+		typeof data.id != "undefined"
+	){
+		var ajax = new XMLHttpRequest();
+		var strQueryData = "id=" + data.id + "&name=" + data.name;
+		
+		if(typeof data.email != "undfined"){
+			strQueryData += "&email=" + data.email;
 		}
-	});
-}
-
-function statusChangeCallback(response) {
-	console.log(response);
-	if (response.status === 'connected') {
-		fbGetUserData(function(r){
-			console.log(r);
-		});
-	} else {
-		console.log("Login-Status : " + response.status);
+		
+		ajax.open("POST", "fbRegistration.php");
+		ajax.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+		ajax.onreadystatechange = function() {
+			if(ajax.readyState == 4){
+				if(ajax.status == 200){
+					if(typeof callback == "function"){
+						callback(ajax.responseText, ajax.status);
+					}
+				}
+			}
+		}
+		
+		ajax.send(strQueryData);
 	}
 }
-
-function checkLoginState() {
-	FB.getLoginStatus(function(response) {
-		statusChangeCallback(response);
-	});
-}*/
 
 function fbLogin(){
 	FB.login(function(response) {
@@ -31,6 +35,21 @@ function fbLogin(){
 		 console.log('Welcome!  Fetching your information.... ');
 			FB.api('/me', {fields: 'email, name'}, function(response) {
 				console.log('data :', response);
+				
+				loginUser(
+					{
+						id: response.id,
+						name: response.name,
+						email: response.email
+					},
+					function(loginResponse) {
+						console.log(loginResponse);
+						var jsonLoginResponse = JSON.parse(loginResponse);
+						if(jsonLoginResponse.success == "true"){
+							location.reload(true);
+						}
+					}
+				);
 			});
 		} else {
 		 console.log('User cancelled login or did not fully authorize.');
