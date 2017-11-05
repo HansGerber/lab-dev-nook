@@ -20,8 +20,8 @@ body {
 		<img src="images/ajax-loader.gif">
 	</div>
 <script>
-var wsUrl = "ws://localhost:6020";
-//var wsUrl = "ws://lab.dev-nook.de:6020";
+//var wsUrl = "ws://localhost:6020";
+var wsUrl = "ws://lab.dev-nook.de:6020";
 var ws = new WebSocket(wsUrl);
 var appSendUpdateTimer = -1;
 var appSendUpdateSpeed = 50;
