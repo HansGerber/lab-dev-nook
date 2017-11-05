@@ -4,7 +4,7 @@ const wss = new WebSocket.Server({ port: 6020 });
 
 // server functions
 
-var clients = [], autoIncrementClientId = 0, i = 0, updateSpeed = 50;
+var clients = [], autoIncrementClientId = 0, i = 0, updateSpeed = 50, hasUpdates = false;
 
 function getNextClientAutoIncrementId(){
 	return ++autoIncrementClientId;
@@ -34,26 +34,35 @@ function broadcast(message){
 
 // game functions
 
-var gameAreaDimensions = [5000, 5000], shots = [], shotsPostData = [];
+var gameAreaDimensions = [500, 500], gameArea = [], shots = [], shotsPostData = [];
 
 var maxPlayers = 4;
-var playerStepWidth = 10, playerStartHP = 100;
+var playerStepWidth = 20, playerMaxHP = 100;
 var playerSize = {
 	w: 40,
 	h: 40
 }
 
-var shotStepWidth = 20, shotMaxDisance = 10, shotDamage = 10;
+var shotStepWidth = 30, shotMaxDisance = 10, shotDamage = 5;
 var shotSize = {
 	w: 20,
 	h: 20
 }
 
 function initGameArea(){
-	for(var y = 0; y < gameAreaDimensions.length; y++){
-		for(var y = 0; y < gameAreaDimensions.length; y++){
-			
+	for(var y = 0; y < gameAreaDimensions[1].length; y++){
+		var line = [];
+		for(var x = 0; x < gameAreaDimensions[0].length; x++){
+			line.push(Math.round(Math.random()));
 		}
+		gameArea.push(line);
+	}
+}
+
+function getRandomStartPos(){
+	return {
+		x:Math.round(Math.random() * gameAreaDimensions[0]),
+		y:Math.round(Math.random() * gameAreaDimensions[1])
 	}
 }
 
@@ -69,21 +78,21 @@ function setPlayerPos(wsId, keys){
 	
 	if(wsIndex != -1){
 		if(keys.left == true){
-			if(clients[wsIndex].player.posX >= playerStepWidth){
-				clients[wsIndex].player.posX -= playerStepWidth;
+			if(clients[wsIndex].player.x >= playerStepWidth){
+				clients[wsIndex].player.x -= playerStepWidth;
 			}
 		} else if(keys.right == true){
-			if(clients[wsIndex].player.posX <= gameAreaDimensions[0] - playerStepWidth){
-				clients[wsIndex].player.posX += playerStepWidth;
+			if(clients[wsIndex].player.x <= gameAreaDimensions[0] - playerStepWidth){
+				clients[wsIndex].player.x += playerStepWidth;
 			}
 		}
 		if(keys.up == true){
-			if(clients[wsIndex].player.posY >= playerStepWidth){
-				clients[wsIndex].player.posY -= playerStepWidth;
+			if(clients[wsIndex].player.y >= playerStepWidth){
+				clients[wsIndex].player.y -= playerStepWidth;
 			}
 		} else if(keys.down == true){
-			if(clients[wsIndex].player.posY <= gameAreaDimensions[0] - playerStepWidth){
-				clients[wsIndex].player.posY += playerStepWidth;
+			if(clients[wsIndex].player.y <= gameAreaDimensions[0] - playerStepWidth){
+				clients[wsIndex].player.y += playerStepWidth;
 			}
 		}
 		return true;
@@ -91,7 +100,7 @@ function setPlayerPos(wsId, keys){
 	return false;
 }
 
-function fireShot(playerId, playerPos, clickPos){
+function fireShot(pId, playerPos, clickPos){
 	var diffX = clickPos.x - playerPos.x, diffY = clickPos.y - playerPos.y;
 	
 	if(Math.abs(diffX) > Math.abs(diffY)){
@@ -116,42 +125,52 @@ function fireShot(playerId, playerPos, clickPos){
 	
 	if(diffX != 0 || diffY != 0){
 		shots.push({
-			playerId:playerId,
+			pId:pId,
 			x:playerPos.x,
 			y:playerPos.y,
-			stepX:diffX,
-			stepY:diffY,
-			distance:0
+			sX:diffX,
+			sY:diffY,
+			d:0 // distance
 		});
 	}
 }
 
-function updateAndReturnShots() {
-	var result = [];
-	for(n in shots){
-		if(shots[n].distance < shotMaxDisance){
-			shots[n].distance++;
-			shots[n].x += shotStepWidth * shots[n].stepX;
-			shots[n].y += shotStepWidth * shots[n].stepY;
-			if(handleShotCollision(shots[n]) == false){
-				result.push(shots[n]);
+function updateShots() {
+	if(shots.length > 0){
+		var result = [];
+		for(n in shots){
+			if(shots[n].d < shotMaxDisance){
+				shots[n].d++;
+				shots[n].x += shotStepWidth * shots[n].sX;
+				shots[n].y += shotStepWidth * shots[n].sY;
+				if(handleShotCollision(shots[n]) == false){
+					result.push(shots[n]);
+				}
 			}
+			hasUpdates = true;
 		}
+		shots = 0;
+		shots = result;
 	}
-	shots = 0;
-	shots = result;
 }
 
 function handleShotCollision(shot){
 	var shotsAfterCollision = [];
 	for(c in clients){
-		if(clients[c].player.id != shot.playerId){
+		if(
+			clients[c].player.id != shot.pId &&
+			clients[c].player.d == false
+		){
 			if(
-				Math.abs(clients[c].player.posX - shot.x) < playerSize.w / 2 + shotSize.w / 2 && 
-				Math.abs(clients[c].player.posY - shot.y) < playerSize.h / 2 + shotSize.h / 2
+				Math.abs(clients[c].player.x - shot.x) < playerSize.w / 2 + shotSize.w / 2 && 
+				Math.abs(clients[c].player.y - shot.y) < playerSize.h / 2 + shotSize.h / 2
 			){
 				if(clients[c].player.hp > 0){
 					clients[c].player.hp -= shotDamage;
+					if(clients[c].player.hp <= 0){
+						clients[c].player.hp = 0;
+						clients[c].player.d = true;
+					}
 				}
 				return true;
 			}
@@ -174,7 +193,6 @@ function getPlayers(){
 // message handling
 
 wss.on('connection', function connection(ws) {
-	console.log("Client connected")
 	
 	if(maxPlayers > clients.length){
 		ws.id = getNextClientAutoIncrementId();
@@ -189,40 +207,49 @@ wss.on('connection', function connection(ws) {
 			
 			switch(command){
 				case 'playerJoin':
+					var startPos = getRandomStartPos();
 					ws.player = {
 						'id': ws.id,
 						'name': value,
-						'posX': 0,
-						'posY': 0,
-						'hp':playerStartHP
+						'x': startPos.x,
+						'y': startPos.y,
+						'hp':playerMaxHP,
+						'd':false // dead
 					}
 					ws.send("yourId:" + ws.player.id);
+					ws.send("arena:" + JSON.stringify(gameArea));
+					hasUpdates = true;
 				break;
 				case 'controls':
+					if(ws.player.hp > 0){
+						var controls = JSON.parse(value);
+						if(typeof controls.keys != "undefined"){
+							setPlayerPos(ws.id, controls.keys);
+							hasUpdates = true;
+						}
+						if(typeof controls.click != "undefined"){
+							fireShot(
+								ws.player.id,
+								{
+									x:ws.player.x,
+									y:ws.player.y
+								},
+								{
+									x:controls.click.x,
+									y:controls.click.y
+								}
+							);
+							hasUpdates = true;
+						}
+					}
 					
-					var controls = JSON.parse(value);
-					if(typeof controls.keys != "undefined"){
-						setPlayerPos(ws.id, controls.keys);
-					}
-					if(typeof controls.click != "undefined"){
-						fireShot(
-							ws.player.id,
-							{
-								x:ws.player.posX,
-								y:ws.player.posY
-							},
-							{
-								x:controls.click.x,
-								y:controls.click.y
-							}
-						);
-					}
 				break;
 			}
 		});
 		
 		ws.on('close', function incoming(_message) {
 			console.log("client disconnected");
+			hasUpdates = true;
 			removeClient(ws.id);
 		})
 	} else {
@@ -232,11 +259,14 @@ wss.on('connection', function connection(ws) {
 
 // Update process
 setInterval(function() {
-	updateAndReturnShots();
+	updateShots();
 	
-	var postData = {
-		players:getPlayers(),
-		shots:shots
+	if(hasUpdates){
+		var postData = {
+			players:getPlayers(),
+			shots:shots
+		}
+		broadcast("gameData:" + JSON.stringify(postData));
+		hasUpdates = false;
 	}
-	broadcast("gameData:" + JSON.stringify(postData));
 }, updateSpeed);
