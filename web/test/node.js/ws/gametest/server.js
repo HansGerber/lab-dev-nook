@@ -1,10 +1,27 @@
+const os = require("os");
 const WebSocket = require('ws');
+const fs = require('fs');
 
 const wss = new WebSocket.Server({ port: 6020 });
 
 // server functions
 
-var clients = [], autoIncrementClientId = 0, i = 0, updateSpeed = 50, hasUpdates = false;
+var clients = [], autoIncrementClientId = 0, i = 0, updateSpeed = 50, hasUpdates = false, logFileURL = "log.txt";
+
+function writeLog(message){
+	var date = new Date();
+	fs.appendFile(logFileURL,
+	"[" +
+	date.getFullYear() + "-" +
+	date.getMonth() + " " +
+	date.getHours() + ":" +
+	date.getMinutes() + ":" +
+	date.getSeconds() +
+	"] " +
+	message + os.EOL, function (err) {
+		if (err) throw err;
+	});
+}
 
 function getNextClientAutoIncrementId(){
 	return ++autoIncrementClientId;
@@ -34,7 +51,7 @@ function broadcast(message){
 
 // game functions
 
-var gameAreaDimensions = [500, 500], gameArea = [], shots = [], shotsPostData = [];
+var gameAreaDimensions = [1000, 600], gameArea = [], shots = [], shotsPostData = [];
 
 var maxPlayers = 4;
 var playerStepWidth = 20, playerMaxHP = 100;
@@ -91,7 +108,7 @@ function setPlayerPos(wsId, keys){
 				clients[wsIndex].player.y -= playerStepWidth;
 			}
 		} else if(keys.down == true){
-			if(clients[wsIndex].player.y <= gameAreaDimensions[0] - playerStepWidth){
+			if(clients[wsIndex].player.y <= gameAreaDimensions[1] - playerStepWidth){
 				clients[wsIndex].player.y += playerStepWidth;
 			}
 		}
@@ -135,7 +152,7 @@ function fireShot(pId, playerPos, clickPos){
 	}
 }
 
-function updateShots() {
+function processShots() {
 	if(shots.length > 0){
 		var result = [];
 		for(n in shots){
@@ -155,7 +172,7 @@ function updateShots() {
 }
 
 function handleShotCollision(shot){
-	var shotsAfterCollision = [];
+	var shotsAfterCollision = [], originalShooterIndex = getPlayerWSIndexById(shot.pId);
 	for(c in clients){
 		if(
 			clients[c].player.id != shot.pId &&
@@ -170,6 +187,7 @@ function handleShotCollision(shot){
 					if(clients[c].player.hp <= 0){
 						clients[c].player.hp = 0;
 						clients[c].player.d = true;
+						clients[originalShooterIndex].player.k++;
 					}
 				}
 				return true;
@@ -177,6 +195,18 @@ function handleShotCollision(shot){
 		}
 	}
 	return false;
+}
+
+function getPlayerWSIndexById(id){
+	var wsCounter = clients.length;
+	
+	while(wsCounter--){
+		if(clients[wsCounter].player.id == id){
+			return wsCounter;
+		}
+	}
+	
+	return -1;
 }
 
 function getPlayers(){
@@ -197,6 +227,7 @@ wss.on('connection', function connection(ws) {
 	if(maxPlayers > clients.length){
 		ws.id = getNextClientAutoIncrementId();
 		addClient(ws);
+		writeLog("(connect) " + clients.length + " clients");
 		
 		ws.on('message', function incoming(_message) {
 			//console.log('received: %s', _message);
@@ -210,10 +241,11 @@ wss.on('connection', function connection(ws) {
 					var startPos = getRandomStartPos();
 					ws.player = {
 						'id': ws.id,
-						'name': value,
+						'n': value, // name
 						'x': startPos.x,
 						'y': startPos.y,
 						'hp':playerMaxHP,
+						'k':0, // kills
 						'd':false // dead
 					}
 					ws.send("yourId:" + ws.player.id);
@@ -248,9 +280,10 @@ wss.on('connection', function connection(ws) {
 		});
 		
 		ws.on('close', function incoming(_message) {
-			console.log("client disconnected");
 			hasUpdates = true;
 			removeClient(ws.id);
+			writeLog("(discconnect) " + clients.length + " clients");
+			console.log("client disconnected");
 		})
 	} else {
 		ws.send("error:playerLimitReached");
@@ -259,7 +292,7 @@ wss.on('connection', function connection(ws) {
 
 // Update process
 setInterval(function() {
-	updateShots();
+	processShots();
 	
 	if(hasUpdates){
 		var postData = {

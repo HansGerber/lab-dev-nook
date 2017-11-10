@@ -1,19 +1,50 @@
 <!DOCTYPE html>
 <html>
 <head>
+<link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet">
 <style>
 body, html {
 	overflow:hidden;
+	height:100%;
 }
 body {
 	padding:0;
 	margin:0;
+	background:#555 url(images/alien-bg.jpg) no-repeat;
+	background-size:cover;
+	font:100%/1.5 arial;
+}
+#ajaxLoader {
+	position:absolute;
+	top:0;
+	left:0;
+	right:0;
+	bottom:0;
+}
+#ajaxLoader img {
+	margin-top:20px;
+	margin:0 auto;
+	display:inline-block;
+}
+#highscoreList {
+	position:absolute;
+	background:rgba(100, 250, 0, 0.2);
+	width:150px;
+	padding:10px;
+	box-sizing:border-box;
+	color:rgb(100, 250, 0);
+	border-bottom-left-radius: 10px;
+	font-family:'Press Start 2P', cursive;
+	font-size: 10px;
+    white-space: nowrap;
+    line-height: 2;
 }
 </style>
 </head>
 <body>
+	<div id="highscoreList"></div>
 	<div id="page">
-		<canvas id="game" width="500" height="500"></canvas>
+		<canvas id="game"></canvas>
 		<div id="debug"></div>
 	</div>
 	<div id="ajaxLoader">
@@ -26,11 +57,14 @@ var ws = new WebSocket(wsUrl);
 var appSendUpdateTimer = -1;
 var appSendUpdateSpeed = 50;
 var hasUpdates = false;
+var doHighscoreUpdate = 20;
 
+var highscoreList = document.getElementById("highscoreList");
 var game = document.getElementById("game");
 var gameCtx = game.getContext("2d");
 var ajaxLoader = document.getElementById("ajaxLoader");
 var page = document.getElementById("page");
+var gameAreaDimensions = [1000, 600];
 
 var spriteObjects = [
 	{name:'ufo_you',path:'images/ufo_you.png'},
@@ -67,6 +101,7 @@ var shotSize = {
 var mPos = [0, 0];
 var mId = -1;
 var playerMaxHP = 100;
+var playerStepWidth = 20;
 var healthBarWidth = playerMaxHP, healthBarHeight = 5;
 var keys = {
 	left:false,
@@ -90,12 +125,34 @@ var mouseClickPostData = {
 }
 var keyIsDown = false;
 
+function sortPlayersByHighscore(a, b){
+	return b.k - a.k;
+}
+
+function updateHighscoreList(players){
+	highscoreList.innerHTML = "";
+	var sortedPlayers = players.sort(sortPlayersByHighscore);
+	for(var i = 0; i < 5; i++){
+		if(typeof players[i] != "undefined"){
+			highscoreList.innerHTML += "Player#" + players[i].id + " : " + players[i].k + "<br>";
+		} else {
+			highscoreList.innerHTML += "-<br>";
+		}
+	}
+}
 
 function drawBackground(){
+	gameCtx.fillStyle = "#000";
+	gameCtx.fillRect(
+		0,
+		0,
+		game.width,
+		game.height
+	);
 	gameCtx.drawImage(
 		sprites.spaceBg.imgObj,
-		0,
-		0
+		game.width - 500,
+		game.height - 500
 	);
 }
 
@@ -171,7 +228,9 @@ function drawGame(){
 
 function startAppDataUpdater() {
 	if(ws){
+		var _i = 0;
 		appSendUpdateTimer = setInterval(function() {
+			document.title = ++_i;
 			if(ws.bufferedAmount == 0){
 				var postData = {}
 				if(keysPostData.left != false || keysPostData.up != false || keysPostData.right != false || keysPostData.down != false){
@@ -183,7 +242,16 @@ function startAppDataUpdater() {
 				ws.send("controls:" + JSON.stringify(postData));
 				syncPostKeys();
 				syncPostClick();
+				interpolateMovePlayer(keys);
 			}
+			
+			if(doHighscoreUpdate == 1){
+				doHighscoreUpdate = 20;
+				
+				updateHighscoreList(players);
+			}
+			doHighscoreUpdate--;
+			
 		}, appSendUpdateSpeed);
 	}
 }
@@ -208,6 +276,27 @@ function stopMovementTimers(){
 		if(playerMovement[timer] != -1){
 			clearInterval(playerMovement[timer]);
 			playerMovement[timer] = -1;
+		}
+	}
+}
+
+function interpolateMovePlayer(keys){
+	if(keys.left == true){
+		if(mPos[0] >= playerStepWidth){
+			mPos[0] -= playerStepWidth;
+		}
+	} else if(keys.right == true){
+		if(mPos[0] <= gameAreaDimensions[0] - playerStepWidth){
+			mPos[0] += playerStepWidth;
+		}
+	}
+	if(keys.up == true){
+		if(mPos[1] >= playerStepWidth){
+			mPos[1] -= playerStepWidth;
+		}
+	} else if(keys.down == true){
+		if(mPos[1] <= gameAreaDimensions[1] - playerStepWidth){
+			mPos[1] += playerStepWidth;
 		}
 	}
 }
@@ -310,6 +399,7 @@ function initControlHandler(){
 	}, false);
 	
 	addEventListener("mousedown", function(e) {
+		e.preventDefault();
 		mouseClick.x = e.clientX;
 		mouseClick.y = e.clientY;
 		syncPostClick();
@@ -324,6 +414,12 @@ function initControlHandler(){
 function startApp(e){
 	ajaxLoader.style.display = "none";
 	page.style.display = "block";
+	
+	game.width = gameAreaDimensions[0];
+	game.height = gameAreaDimensions[1];
+	
+	highscoreList.style.left = (game.width - 150) + "px";
+	
 	if(ws){
 		initMessageHandler();
 		
@@ -343,7 +439,7 @@ function endApp(){
 function bot(){
 	var dir = 1;
 	setInterval(function() {
-		if(mPos[0] >= 500){
+		if(mPos[0] >= 400){
 			keyUp({
 				keyCode: 39
 			});
