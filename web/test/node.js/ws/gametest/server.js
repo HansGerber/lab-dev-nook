@@ -162,8 +162,8 @@ function processShots() {
 		for(n in shots){
 			if(shots[n].d < shotMaxDisance){
 				shots[n].d++;
-				shots[n].x += shotStepWidth * shots[n].sX;
-				shots[n].y += shotStepWidth * shots[n].sY;
+				shots[n].x += Math.round(shotStepWidth * shots[n].sX * 10) / 10;
+				shots[n].y += Math.round(shotStepWidth * shots[n].sY * 10) / 10;
 				if(handleShotCollision(shots[n]) == false){
 					result.push(shots[n]);
 				}
