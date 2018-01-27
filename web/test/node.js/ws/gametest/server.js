@@ -147,10 +147,10 @@ function fireShot(pId, playerPos, clickPos){
 	if(diffX != 0 || diffY != 0){
 		shots.push({
 			pId:pId,
-			x:playerPos.x,
-			y:playerPos.y,
-			sX:diffX,
-			sY:diffY,
+			x:Math.round(playerPos.x * 10) / 10,
+			y:Math.round(playerPos.y * 10) / 10,
+			sX:Math.round(diffX * 10) / 10,
+			sY:Math.round(diffY * 10) / 10,
 			d:0 // distance
 		});
 	}
@@ -162,8 +162,8 @@ function processShots() {
 		for(n in shots){
 			if(shots[n].d < shotMaxDisance){
 				shots[n].d++;
-				shots[n].x += Math.round(shotStepWidth * shots[n].sX * 10) / 10;
-				shots[n].y += Math.round(shotStepWidth * shots[n].sY * 10) / 10;
+				shots[n].x += shotStepWidth * shots[n].sX;
+				shots[n].y += shotStepWidth * shots[n].sY;
 				if(handleShotCollision(shots[n]) == false){
 					result.push(shots[n]);
 				}
