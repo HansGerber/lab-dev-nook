@@ -13,7 +13,8 @@ function writeLog(message){
 	fs.appendFile(logFileURL,
 	"[" +
 	date.getFullYear() + "-" +
-	date.getMonth() + " " +
+	(date.getMonth() + 1) + "-" +
+	date.getDate() + " " +
 	date.getHours() + ":" +
 	date.getMinutes() + ":" +
 	date.getSeconds() +
@@ -52,6 +53,7 @@ function broadcast(message){
 // game functions
 
 var gameAreaDimensions = [1000, 600], gameArea = [], shots = [], shotsPostData = [];
+var powerUp = [-1, 0, 0]; // [type (-1 = none), x, y] --> noly one power up present at once
 
 var maxPlayers = 4;
 var playerStepWidth = 20, playerMaxHP = 100;
@@ -112,6 +114,8 @@ function setPlayerPos(wsId, keys){
 				clients[wsIndex].player.y += playerStepWidth;
 			}
 		}
+		
+		collectPowerUp(clients[wsIndex].player);
 		return true;
 	}
 	return false;
@@ -171,6 +175,36 @@ function processShots() {
 	}
 }
 
+function collectPowerUp(player){
+	if(
+		Math.abs(player.x - powerUp[1]) < 20 && 
+		Math.abs(player.y - powerUp[2]) < 20
+	){
+		switch(powerUp[0]){
+			case 1:
+			
+			break;
+			case 2:
+			
+			break;
+			case 3:
+			
+			break;
+			case 4:
+			
+			break;
+		}
+		
+		powerUp[0] = -1;
+		powerUp[1] = 0;
+		powerUp[2] = 0;
+		
+		return true;
+	} else {
+		return false;
+	}
+}
+
 function handleShotCollision(shot){
 	var shotsAfterCollision = [], originalShooterIndex = getPlayerWSIndexById(shot.pId);
 	for(c in clients){
@@ -218,6 +252,14 @@ function getPlayers(){
 	}
 	
 	return players;
+}
+
+function setRandomPowerUp(){
+	if(powerUp[0] == -1){
+		powerUp[0] = Math.round(Math.random() * 9 + 1);
+		powerUp[1] = Math.round(Math.random() * (gameAreaDimensions[0] - 40));
+		powerUp[2] = Math.round(Math.random() * (gameAreaDimensions[1] - 40));
+	}
 }
 
 // message handling
@@ -297,7 +339,12 @@ setInterval(function() {
 	if(hasUpdates){
 		var postData = {
 			players:getPlayers(),
-			shots:shots
+			shots:shots,
+		}
+		
+		setRandomPowerUp();
+		if(powerUp[0] != -1){
+			postData.pu = powerUp;
 		}
 		broadcast("gameData:" + JSON.stringify(postData));
 		hasUpdates = false;
