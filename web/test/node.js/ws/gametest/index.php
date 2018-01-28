@@ -10,7 +10,7 @@ body, html {
 body {
 	padding:0;
 	margin:0;
-	background:#555 url(images/alien-bg.jpg) no-repeat;
+	/*background:#555 url(images/alien-bg.jpg) no-repeat;*/
 	background-size:cover;
 	font:100%/1.5 arial;
 }
