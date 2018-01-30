@@ -46,8 +46,11 @@ body {
 <body>
 	<div id="highscoreList"></div>
 	<div id="page">
-		<canvas id="game"></canvas>
-		<div id="debug"></div>
+            <canvas id="game"></canvas>
+            <div id="debug"></div>
+            <div id="gameInstructions">
+                Bewegen : WASD und Pfeiltasten, Schuss : Mouseclick
+            </div>
 	</div>
 	<div id="ajaxLoader">
 		<img src="images/ajax-loader.gif">
