@@ -49,7 +49,9 @@ body {
             <canvas id="game"></canvas>
             <div id="debug"></div>
             <div id="gameInstructions">
-                Bewegen : WASD und Pfeiltasten, Schuss : Mouseclick
+                <h3>Anleitung</h3>
+                Bewegen : WASD und Pfeiltasten<br>
+                Schuss : Linksklick
             </div>
 	</div>
 	<div id="ajaxLoader">
