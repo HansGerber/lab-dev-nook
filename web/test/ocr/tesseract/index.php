@@ -9,13 +9,14 @@
         $tesseractOutputFile = "test1";
         $tesseractOutputPath = $tesseractOutputFolder.$tesseractOutputFile;
         $tesseractCLIOutput = array();
+        $tesseractCLIOutputStatus = 0;
 	
         $tesseractCommand = "tesseract $imagePath $tesseractOutputPath";
         
-        exec($tesseractCommand, $tesseractCLIOutput);
+        exec($tesseractCommand, $tesseractCLIOutput, $tesseractCLIOutputStatus);
         
         ob_start();
-        var_dump($tesseractCLIOutput);
+        var_dump($tesseractCLIOutput, $tesseractCLIOutputStatus);
         $output = ob_get_clean();
     }
 ?>
