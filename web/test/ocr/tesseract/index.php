@@ -1,7 +1,7 @@
 <?php
     $image = @$_FILES["imageUpload"];
     $output = "";
-    if($image){
+    //if($image){
         $testImageFolder = "images/";
 	$testImageName = "test1.jpg";
         $imagePath = $testImageFolder.$testImageName;
@@ -18,7 +18,7 @@
         ob_start();
         var_dump($tesseractCLIOutput, $tesseractCLIOutputStatus);
         $output = ob_get_clean();
-    }
+    //}
 ?>
 <html>
     <head>
