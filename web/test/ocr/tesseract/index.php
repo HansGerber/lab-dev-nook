@@ -17,11 +17,11 @@
 	
         $tesseractCommand = "tesseract $imagePath $tesseractOutputPath";
         
-        exec($tesseractCommand, $tesseractCLIOutput, $tesseractCLIOutputStatus);
+        @exec($tesseractCommand, $tesseractCLIOutput, $tesseractCLIOutputStatus);
         
         ob_start();
         var_dump($tesseractCLIOutput, $tesseractCLIOutputStatus);
-        $output = ob_get_clean();
+        $output = "<p>$output</p>" . ob_get_clean();
     //}
 ?>
 <html>
