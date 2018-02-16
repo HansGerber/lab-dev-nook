@@ -1,9 +1,13 @@
 <?php
     $image = @$_FILES["imageUpload"];
+    $testImage = @$_GET["testImage"];
     $output = "";
     //if($image){
         $testImageFolder = "images/";
 	$testImageName = "test1.jpg";
+        if($testImage){
+            $testImageName = $testImage;
+        }
         $imagePath = $testImageFolder.$testImageName;
         $tesseractOutputFolder = "output/";
         $tesseractOutputFile = "test1";
