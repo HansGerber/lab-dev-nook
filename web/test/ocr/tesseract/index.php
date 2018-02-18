@@ -23,7 +23,7 @@
         var_dump($tesseractCLIOutput, $tesseractCLIOutputStatus);
         $output = "<ul>
             <li>Bild : <a href=\"$imagePath\">show</a></li>
-            <li>Ergebnis : <a href=\"$tesseractOutputPath\">show</a></li>
+            <li>Ergebnis : <a href=\"$tesseractOutputPath.txt\">show</a></li>
         </ul>";
         $output .= "INFO : " . ob_get_clean();
     //}
