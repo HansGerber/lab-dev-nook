@@ -25,7 +25,7 @@
             <li>Bild : <a href=\"$imagePath\">show</a></li>
             <li>Ergebnis : <a href=\"$tesseractOutputPath\">show</a></li>
         </ul>";
-        $output .= "<p>$output</p>" . ob_get_clean();
+        $output .= "INFO : " . ob_get_clean();
     //}
 ?>
 <html>
