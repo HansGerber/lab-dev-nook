@@ -21,7 +21,11 @@
         
         ob_start();
         var_dump($tesseractCLIOutput, $tesseractCLIOutputStatus);
-        $output = "<p>$output</p>" . ob_get_clean();
+        $output = "<ul>
+            <li>Bild : <a href=\"$imagePath\">show</a></li>
+            <li>Ergebnis : <a href=\"$tesseractOutputPath\">show</a></li>
+        </ul>";
+        $output .= "<p>$output</p>" . ob_get_clean();
     //}
 ?>
 <html>
