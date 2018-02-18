@@ -22,8 +22,8 @@
         ob_start();
         var_dump($tesseractCLIOutput, $tesseractCLIOutputStatus);
         $output = "<ul>
-            <li>Bild : <a href=\"$imagePath\">show</a></li>
-            <li>Ergebnis : <a href=\"$tesseractOutputPath.txt\">show</a></li>
+            <li>Bild : <a href=\"$imagePath\" target=\"_blank\">show</a></li>
+            <li>Ergebnis : <a href=\"$tesseractOutputPath.txt\" target=\"_blank\">show</a></li>
         </ul>";
         $output .= "INFO : " . ob_get_clean();
     //}
