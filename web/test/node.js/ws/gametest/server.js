@@ -2,7 +2,7 @@ const os = require("os");
 const WebSocket = require('ws');
 const fs = require('fs');
 
-const wss = new WebSocket.Server({ port: 6020 });
+const wss = new WebSocket.Server({ port: 6021 });
 
 // server functions
 
