@@ -41,6 +41,10 @@ body {
     white-space: nowrap;
     line-height: 2;
 }
+#game {
+    border-bottom:solid 1px #fff;
+    border-right:solid 1px #fff;
+}
 </style>
 </head>
 <body>
