@@ -102,7 +102,7 @@ function loadMemes(tag){
 						elements_selector: ".lazyImage",
 						callback_load: function(elem) {
 							elem.addEventListener("click", function(e) {
-								this.parentNode.parentNode.getElementsByTagName("div")[1].getElementsByTagName("input")[0].select();
+								this.parentNode.parentNode.querySelector(".txtMemeAnimatedUrl").select();
 								document.execCommand("copy");
 								showFlashMessage("URL copied");
 							}, false);
