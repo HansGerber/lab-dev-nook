@@ -40,8 +40,11 @@ function getMemes(options){
 	ajax.onreadystatechange = function() {
 		
 		if(ajax.readyState === XMLHttpRequest.DONE && ajax.status == 200){
-			
+		    if(JSON.parse(ajax.responseText) !== null){
 			options.after(JSON.parse(ajax.responseText).data);
+                    } else {
+                        alert("An error occured while loading the meme data");
+                    }
 		}
 	}
 	ajax.send();
