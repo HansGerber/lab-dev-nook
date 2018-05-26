@@ -9,6 +9,9 @@ h1, h2 {
 	text-transform:uppercase;
 	letter-spacing:0.1em;
 }
+.nowrap {
+    white-space: nowrap;
+}
 .meme {
 	display:inline-block;
 	margin:0 10px 10px 0;
@@ -31,13 +34,16 @@ h1, h2 {
 .meme .txtMemeAnimatedUrl {
 	border:none;
 	background:none;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.25) inset;
 	width:80%;
 }
 .meme .memeAnimatedUrl span,
 .meme .memeTags span {
 	color:#999;
 	width:20%;
-	
+}
+.meme .memeTags a {
+    color: #48b;
 }
 #headerWrap {
 	background:#000;

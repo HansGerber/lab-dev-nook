@@ -49,17 +49,27 @@ function getMemes(options){
 
 // function requires vanilla-lazyload
 function buildMemesResult(jsonMemeData, callback){
-	var i = 0;
-	var meme, memes = document.getElementById("memes");
+	var memes = document.getElementById("memes");
 	
 	memes.innerHTML = "";
 	
-	for(i = 0; i < jsonMemeData.length; i++){
-		meme = document.createElement("div");
+	for(var memeIndex = 0; memeIndex < jsonMemeData.length; memeIndex++){
+                let meme = document.createElement("div"), tags = jsonMemeData[memeIndex].tags.split(/\s*,\s*/),
+                    tagsHTML = "";
+            
+                tagsHTML = '<div class="memeTags"><span>Tags: </span>';
+                for(var tagIndex = 0; tagIndex < tags.length; tagIndex++){
+                    tagsHTML += '<a href="index.php?tag=' + tags[tagIndex] + '">' +
+                        tags[tagIndex] +
+                        '</a>&nbsp;';
+                }
+                tagsHTML += '</div>';
+            
 		meme.className = "meme";
-		meme.innerHTML = '<div><img class="lazyImage" data-original="' + jsonMemeData[i].animatedUrl + '" ></div>' + 
-			'<div class="memeAnimatedUrl"><span>Url :</span><input onfocus="this.select();" onclick="this.select();" class="txtMemeAnimatedUrl" type="text" value="' + jsonMemeData[i].animatedUrl + '"></div>' +
-			'<div class="memeTags"><span>Tags :</span>' + jsonMemeData[i].tags + '</div>';
+		meme.innerHTML = '<div><img class="lazyImage" data-original="' + jsonMemeData[memeIndex].animatedUrl + '" ></div>' + 
+                        '<div>#' + (memeIndex + 1) + '</div>' +
+			'<div class="memeAnimatedUrl"><span>Url: </span><input onfocus="this.select();" onclick="this.select();" class="txtMemeAnimatedUrl" type="text" value="' + jsonMemeData[memeIndex].animatedUrl + '"></div>' +
+                        tagsHTML;
 		memes.appendChild(meme);
 	}
 	if(typeof callback == "function"){
