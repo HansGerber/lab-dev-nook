@@ -1,0 +1,99 @@
+<style>
+body {
+	padding:0;
+	margin:0;
+}
+</style>
+
+<div id="viewContainer"></div>
+<!-- script src="../three.js-master/build/three.min.js"></script -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/93/three.min.js"></script>
+<script>
+	var screenWidth = 800
+	var screenHeight = 600
+	var FOV = 75
+	var aspectRatio = screenWidth / screenHeight
+	var renderingDistance = {
+		near: 0.1,
+		far: 1000
+	}
+
+	var scene = new THREE.Scene()
+	
+	var camera = new THREE.PerspectiveCamera(
+		FOV,
+		aspectRatio,
+		renderingDistance.near,
+		renderingDistance.far
+	);
+	camera.position.set( 1, 0, 3 )
+	
+	var renderer = new THREE.WebGLRenderer({antialias: true});
+	renderer.setSize( screenWidth, screenHeight );
+	
+	document.getElementById("viewContainer").appendChild( renderer.domElement );
+	
+	// WALL
+	var geometryWall = new THREE.BoxGeometry( 1, 2, 4 )
+	var textureWall = new THREE.TextureLoader().load( "images/1.jpg" );
+	textureWall.wrapS = THREE.RepeatWrapping;
+	textureWall.wrapT = THREE.RepeatWrapping;
+	textureWall.repeat.set( 2, 2 );
+	var materialWall = new THREE.MeshPhongMaterial({
+		map: textureWall,
+		color: 0xffffff,
+	});
+	var wall = new THREE.Mesh( geometryWall, materialWall );
+	
+	// WALL 2
+	var geometryWall = new THREE.BoxGeometry( 1, 2, 4 )
+	var textureWall = new THREE.TextureLoader().load( "images/1.jpg" );
+	textureWall.wrapS = THREE.RepeatWrapping;
+	textureWall.wrapT = THREE.RepeatWrapping;
+	textureWall.repeat.set( 2, 2 );
+	var materialWall = new THREE.MeshPhongMaterial({
+		map: textureWall,
+		color: 0xffffff,
+	});
+	var wall2 = new THREE.Mesh( geometryWall, materialWall );
+	wall2.position.x = 3
+	
+	// FLOOR
+	var geometryFloor = new THREE.BoxGeometry( 2, 0.1, 4 )
+	var textureFloor = new THREE.TextureLoader().load( "images/2.jpg" );
+	textureFloor.wrapS = THREE.RepeatWrapping;
+	textureFloor.wrapT = THREE.RepeatWrapping;
+	textureFloor.repeat.set( 2, 2 );
+	var materialFloor = new THREE.MeshPhongMaterial({
+		map: textureFloor,
+		color: 0xffffff,
+	});
+	var floor = new THREE.Mesh( geometryFloor, materialFloor );
+	floor.position.set(1.5, -1, 0);
+	
+	// LIGHTING
+	var light = new THREE.PointLight( 0xffffff, 0.5, 3 );
+	light.position.set( 2, 0, 2 );
+	
+	scene.add( wall, wall2, floor, light );
+	
+	var lightDir = 1;
+	function animate(){
+		requestAnimationFrame( animate )
+		
+		if(lightDir === 1){
+			 if(light.position.z > 4){
+				 lightDir = -1;
+			 }
+		} else {
+			if(light.position.z < 0){
+				 lightDir = 1;
+			 }
+		}
+		light.position.z += 0.01 * lightDir;
+		
+		renderer.render( scene, camera )
+	}
+	
+	animate()
+</script>
