@@ -148,21 +148,16 @@ var game = window.game || {
 			});
 			body.addShape(shape);
 			
+			
 			var geometry = new THREE.BoxGeometry(
 				size[0] * 2,
 				size[1] * 2,
 				size[2] * 2
 			)
-			if(objectConfig.materialType == "phong"){
-				var material = new THREE.MeshPhongMaterial({
-					color: objectConfig.color || 0x00ff00,
-				})
-			} else {
-				var material = new THREE.MeshBasicMaterial({
-					color: objectConfig.color || 0x00ff00,
-					wireframe: objectConfig.wireframe || false
-				})
-			}
+			var material = new THREE.MeshBasicMaterial({
+				color: objectConfig.color || 0x00ff00,
+				wireframe: objectConfig.wireframe || false
+			})
 			var mesh = new THREE.Mesh(
 				geometry,
 				material
@@ -173,7 +168,6 @@ var game = window.game || {
 			
 			object.canJump = (function() {
 				var raycaster = new THREE.Raycaster();
-                                // TODO
 			}).bind({
 				object: object,
 				game: this
@@ -192,7 +186,7 @@ var game = window.game || {
 		
 	},
 	on: function(eventName, fnCallback){
-		if(typeof fnCallback === "function"){
+		if(typeof fnCallback == "function"){
 			var handler = fnCallback.bind(this);
 			switch(eventName){
 				default:
@@ -213,7 +207,7 @@ var game = window.game || {
 	render: function() {
 		requestAnimationFrame(this.render.bind(this))
 		
-		if(typeof this.renderLogic === "function"){
+		if(typeof this.renderLogic == "function"){
 			(this.renderLogic.bind(this))();
 		}
 		
