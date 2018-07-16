@@ -57,49 +57,53 @@
 			game.init({
 				after:function() {
 					
-					this.world.addEventListener("postStep", function() {
-						// console.log("postStep", game.world.contacts);
-					}, false);
-					
 					fallingObj = this.addObject({
 						name: 'fallling',
-						wireframe: true,
-						size: [2, 1, 2],
+						materialType: 'phong',
+						size: [1, 1, 1],
 					});
 					
 					groundObj1 = this.addObject({
 						name: 'ground1',
+						materialType: 'phong',
 						mass: 0,
 						color: 0xff0000,
-						wireframe: true,
-						size: [1, 1, 1],
+						size: [2, 0.5, 2],
 					});
-					
+										
 					groundObj2 = this.addObject({
 						name: 'ground2',
+						materialType: 'phong',
 						mass: 0,
 						color: 0x0000ff,
-						wireframe: true,
 						size: [6, 0.5, 6],
 					});
-					
+										
+					var alight = new THREE.AmbientLight(0xffffff, 0.5);
+					var plight = new THREE.PointLight(0xffffff, 1, 100);
+					plight.position.set(10, 30, 10)
+					this.scene.add(
+						plight, alight
+					)
+
 					fallingObj.body.position.y = 10;
 					fallingObj.body.fixedRotation = true;
 					fallingObj.body.updateMassProperties();
+					groundObj1.mesh.castShadow = true;
 					fallingObj.body.addEventListener("collide", function(e) {
 						// console.log("object collided", e);
 					}, false);
+					
+					groundObj1.body.position.x = 1;
+					groundObj1.body.position.y = 5;
+					
+					groundObj2.body.position.y = -4;
 					
 					this.on("keydown", function(e) {
 						if(e.keyCode == 32){
 							jump();
 						}
 					});
-					
-					groundObj1.body.position.x = 1;
-					groundObj1.body.position.y = 5;
-					
-					groundObj2.body.position.y = -4;
 				},
 				renderLogic: function() {
 					if(this.input.keysPressed.LEFT){

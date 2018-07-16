@@ -153,10 +153,16 @@ var game = window.game || {
 				size[1] * 2,
 				size[2] * 2
 			)
-			var material = new THREE.MeshBasicMaterial({
-				color: objectConfig.color || 0x00ff00,
-				wireframe: objectConfig.wireframe || false
-			})
+			if(objectConfig.materialType == "phong"){
+				var material = new THREE.MeshPhongMaterial({
+					color: objectConfig.color || 0x00ff00,
+				})
+			} else {
+				var material = new THREE.MeshBasicMaterial({
+					color: objectConfig.color || 0x00ff00,
+					wireframe: objectConfig.wireframe || false
+				})
+			}
 			var mesh = new THREE.Mesh(
 				geometry,
 				material
