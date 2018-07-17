@@ -127,7 +127,8 @@ var game = window.game || {
 
 			var object = {
 				body: null,
-				mesh: null
+				physMaterial: null,
+				mesh: null,
 			}
 
 			var size = [
@@ -143,9 +144,17 @@ var game = window.game || {
 					size[2]
 				)
 			);
-			var body = new CANNON.Body({
-				mass: objectConfig.mass,
-			});
+			
+			var bodyOptions = {
+				mass: objectConfig.mass
+			}
+			if("physMaterial" in objectConfig){
+				object.physMaterial = new CANNON.Material(objectConfig.physMaterial)
+				bodyOptions.material = object.physMaterial;
+			}
+			
+			var body = new CANNON.Body(bodyOptions);
+			
 			body.addShape(shape);
 			
 			
@@ -184,6 +193,28 @@ var game = window.game || {
 	},
 	removeObject: function(object) {
 		
+	},
+	addContactMaterial: function(obj1, obj2, contactMaterialConfig){
+		if(
+			"physMaterial" in obj1 && obj1.physMaterial !== null &&
+			"physMaterial" in obj2 && obj2.physMaterial !== null
+		){
+			contactMaterialConfig.friction = "friction" in contactMaterialConfig ? contactMaterialConfig.friction : 0;
+			contactMaterialConfig.restitution = "restitution" in contactMaterialConfig ? contactMaterialConfig.restitution : 0;
+			
+			var contactMaterial = new CANNON.ContactMaterial(
+				obj1.physMaterial,
+				obj2.physMaterial,
+				contactMaterialConfig
+			);
+			
+			console.log(contactMaterial, this.world);
+			
+			this.world.addContactMaterial(contactMaterial)
+			
+			return contactMaterial;
+		}
+		return false;
 	},
 	on: function(eventName, fnCallback){
 		if(typeof fnCallback == "function"){
