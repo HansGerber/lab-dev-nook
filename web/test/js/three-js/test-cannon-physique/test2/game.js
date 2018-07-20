@@ -14,6 +14,7 @@ var game = window.game || {
 		}
 	},
 	objects: {},
+	physContactMaterials: {},
 	world: null,
 	renderer: null,
 	scene: null,
@@ -127,7 +128,7 @@ var game = window.game || {
 
 			var object = {
 				body: null,
-				physMaterial: null,
+				physContactMaterial: null,
 				mesh: null,
 			}
 
@@ -148,9 +149,13 @@ var game = window.game || {
 			var bodyOptions = {
 				mass: objectConfig.mass
 			}
-			if("physMaterial" in objectConfig){
-				object.physMaterial = new CANNON.Material(objectConfig.physMaterial)
-				bodyOptions.material = object.physMaterial;
+			if("physContactMaterial" in objectConfig){
+				console.log(objectConfig.physContactMaterial, this.physContactMaterials);
+				if(!(objectConfig.physContactMaterial in this.physContactMaterials)){
+					this.physContactMaterials[objectConfig.physContactMaterial] = new CANNON.Material(objectConfig.physContactMaterial);
+				}
+				object.physContactMaterial = this.physContactMaterials[objectConfig.physContactMaterial]
+				bodyOptions.material = object.physContactMaterial;
 			}
 			
 			var body = new CANNON.Body(bodyOptions);
@@ -194,21 +199,20 @@ var game = window.game || {
 	removeObject: function(object) {
 		
 	},
-	addContactMaterial: function(obj1, obj2, contactMaterialConfig){
-		if(
-			"physMaterial" in obj1 && obj1.physMaterial !== null &&
-			"physMaterial" in obj2 && obj2.physMaterial !== null
-		){
+	addContactMaterial: function(m1, m2, contactMaterialConfig){
+		console.log('this.physContactMaterials', this.physContactMaterials);
+		console.log(m1, m2, m2 in this.physContactMaterials);
+		if(m1 in this.physContactMaterials && m2 in this.physContactMaterials){
+			
 			contactMaterialConfig.friction = "friction" in contactMaterialConfig ? contactMaterialConfig.friction : 0;
 			contactMaterialConfig.restitution = "restitution" in contactMaterialConfig ? contactMaterialConfig.restitution : 0;
 			
 			var contactMaterial = new CANNON.ContactMaterial(
-				obj1.physMaterial,
-				obj2.physMaterial,
+				this.physContactMaterials[m1],
+				this.physContactMaterials[m2],
 				contactMaterialConfig
 			);
-			
-			console.log(contactMaterial, this.world);
+			console.log('contactMaterial', contactMaterial);
 			
 			this.world.addContactMaterial(contactMaterial)
 			

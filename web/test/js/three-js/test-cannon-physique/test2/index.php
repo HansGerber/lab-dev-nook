@@ -40,41 +40,27 @@
 					
 					fallingObj = this.addObject({
 						name: 'fallling',
-						physMaterial: 'fallingObject',
+						physContactMaterial: 'freeObject',
 						wireframe: true,
 						size: [2, 1, 2],
 					});
 					
 					groundObj1 = this.addObject({
 						name: 'ground1',
-						physMaterial: 'solidImmovable',
+						physContactMaterial: 'solidImmovable',
 						mass: 0,
 						color: 0xff0000,
 						wireframe: true,
 						size: [1, 1, 1],
-						// TODO: add option 'contactMaterials' to game framework
-						contactMaterials: [
-							{
-								obj: fallingObj,
-								options: {restitution: 0.5}
-							}
-						]
 					});
 					
 					groundObj2 = this.addObject({
 						name: 'ground2',
-						physMaterial: 'solidImmovable',
+						physContactMaterial: 'solidImmovable',
 						mass: 0,
 						color: 0x0000ff,
 						wireframe: true,
 						size: [6, 0.5, 6],
-						// TODO: add option 'contactMaterials' to game framework
-						contactMaterials: [
-							{
-								obj: fallingObj,
-								options: {restitution: 0.5}
-							}
-						]
 					});
 					
 					fallingObj.body.position.y = 10;
@@ -95,8 +81,7 @@
 					
 					groundObj2.body.position.y = -4;
 					
-					this.addContactMaterial(fallingObj, groundObj1, {restitution: 0.5});
-					this.addContactMaterial(fallingObj, groundObj2, {restitution: 0.5});
+					this.addContactMaterial('freeObject', 'solidImmovable', {});
 				},
 				renderLogic: function() {
 					fallingObj.body.velocity.x = 0;
