@@ -14,12 +14,14 @@
 		<script src="game.js"></script>
 		<script>
 		
-		var fallingObj, groundObj1, groundObj2, ground
-			moveSpeed = 0.1;
+		var fallingObj,
+			groundObj, groundObj2,
+			wallObject1, wallObject2, wallObject3, wallObject4, wallObject5,
+			flashLight;
 		
 		function jump(){
 			// TODO: prevent when not on ground
-			fallingObj.body.velocity.y = 10;
+			fallingObj.body.velocity.y = 5;
 		}
                 
 		function lockCameraToObject(object){
@@ -27,6 +29,14 @@
 			this.camera.position.y = object.body.position.y + 20;
 			this.camera.position.z = object.body.position.z + 20;
 			this.camera.rotation.x = -(Math.PI / 4);
+		}
+		
+		function lockFlashLightToObject(object){
+			flashLight.position.set(
+				object.body.position.x,
+				object.body.position.y,
+				object.body.position.z
+			);
 		}
 		
 		addEventListener("load", function() {
@@ -38,29 +48,15 @@
 						// console.log("postStep", game.world.contacts);
 					}, false);
 					
+					// MOVABLE OBJECT
+					//
+					
 					fallingObj = this.addObject({
 						name: 'fallling',
 						physContactMaterial: 'freeObject',
-						wireframe: true,
-						size: [2, 1, 2],
-					});
-					
-					groundObj1 = this.addObject({
-						name: 'ground1',
-						physContactMaterial: 'solidImmovable',
-						mass: 0,
-						color: 0xff0000,
-						wireframe: true,
-						size: [1, 1, 1],
-					});
-					
-					groundObj2 = this.addObject({
-						name: 'ground2',
-						physContactMaterial: 'solidImmovable',
-						mass: 0,
-						color: 0x0000ff,
-						wireframe: true,
-						size: [6, 0.5, 6],
+						mass: 4,
+						//wireframe: true,
+						size: [2, 3, 2],
 					});
 					
 					fallingObj.body.position.y = 10;
@@ -76,22 +72,146 @@
 						}
 					});
 					
-					groundObj1.body.position.x = 1;
-					groundObj1.body.position.y = 5;
+					// GROUND OBJECTS
+					//
 					
-					groundObj2.body.position.y = -4;
+					groundObj = this.addObject({
+						name: 'ground1',
+						physContactMaterial: 'solidImmovable',
+						textureURL: 'img/silent_hill_floor_1_by_felhek.jpg',
+						repeatT: 4,
+						mass: 0,
+						materialType: 'phong',
+						color: 0xffffff,
+						//wireframe: true,
+						size: [6, 0.5, 24],
+					});
+					
+					groundObj2 = this.addObject({
+						name: 'ground2',
+						physContactMaterial: 'solidImmovable',
+						textureURL: 'img/silent_hill_floor_1_by_felhek.jpg',
+						repeatT: 3,
+						mass: 0,
+						materialType: 'phong',
+						color: 0xffffff,
+						//wireframe: true,
+						size: [6, 0.5, 18],
+					});
+					
+					groundObj2.body.position.x = 12;
+					groundObj2.body.position.z = 6;
+					
+					// WALL OBJECTS
+					//
+					
+					wallObject1 = this.addObject({
+						name: 'wall1',
+						physContactMaterial: 'solidImmovable',
+						textureURL: 'img/debris_by_darkwood67.jpg',
+						repeatS: 3,
+						repeatT: 3,
+						mass: 0,
+						materialType: 'phong',
+						color: 0xffffff,
+						//wireframe: true,
+						size: [1, 12, 18],
+					});
+					
+					wallObject2 = this.addObject({
+						name: 'wall2',
+						physContactMaterial: 'solidImmovable',
+						textureURL: 'img/debris_by_darkwood67.jpg',
+						repeatS: 1,
+						repeatT: 3,
+						mass: 0,
+						materialType: 'phong',
+						color: 0xffffff,
+						//wireframe: true,
+						size: [6, 12, 1],
+					});
+					
+					wallObject3 = this.addObject({
+						name: 'wall3',
+						physContactMaterial: 'solidImmovable',
+						textureURL: 'img/debris_by_darkwood67.jpg',
+						repeatS: 1,
+						repeatT: 3,
+						mass: 0,
+						materialType: 'phong',
+						color: 0xffffff,
+						//wireframe: true,
+						size: [1, 12, 6],
+					});
+					
+					wallObject4 = this.addObject({
+						name: 'wall4',
+						physContactMaterial: 'solidImmovable',
+						textureURL: 'img/debris_by_darkwood67.jpg',
+						repeatS: 1,
+						repeatT: 3,
+						mass: 0,
+						materialType: 'phong',
+						color: 0xffffff,
+						//wireframe: true,
+						size: [6, 12, 1],
+					});
+					
+					wallObject5 = this.addObject({
+						name: 'wall5',
+						physContactMaterial: 'solidImmovable',
+						textureURL: 'img/debris_by_darkwood67.jpg',
+						repeatS: 1,
+						repeatT: 3,
+						mass: 0,
+						materialType: 'phong',
+						color: 0xffffff,
+						//wireframe: true,
+						size: [1, 12, 6],
+					});
+					
+					wallObject1.body.position.x = -6;
+					wallObject1.body.position.y = 12;
+					wallObject1.body.position.z = 6;
+					
+					wallObject2.body.position.y = 12;
+					wallObject2.body.position.z = -13;
+					
+					wallObject3.body.position.x = 6;
+					wallObject3.body.position.y = 12;
+					wallObject3.body.position.z = -6;
+					
+					wallObject4.body.position.x = 13;
+					wallObject4.body.position.y = 12;
+					wallObject4.body.position.z = -1;
+					
+					wallObject5.body.position.x = 18;
+					wallObject5.body.position.y = 12;
+					wallObject5.body.position.z = 6;
+					
+					// CONTACT BEHAVIOUR
+					//
 					
 					this.addContactMaterial('freeObject', 'solidImmovable', {});
+					
+					// FLASH LIGHT
+					//
+					
+					flashLight = new THREE.PointLight(0xffffff, 2, 10);
+					this.scene.add( flashLight );
 				},
 				renderLogic: function() {
+					var walkSpeed = 5;
+					
 					fallingObj.body.velocity.x = 0;
 					fallingObj.body.velocity.z = 0;
-					this.input.keysPressed.LEFT ? fallingObj.body.velocity.x = -5 : false;
-					this.input.keysPressed.UP ? fallingObj.body.velocity.z = -5 : false;
-					this.input.keysPressed.RIGHT ? fallingObj.body.velocity.x = 5 : false;
-					this.input.keysPressed.DOWN ? fallingObj.body.velocity.z = 5 : false;
+					this.input.keysPressed.LEFT ? fallingObj.body.velocity.x = -walkSpeed : false;
+					this.input.keysPressed.UP ? fallingObj.body.velocity.z = -walkSpeed : false;
+					this.input.keysPressed.RIGHT ? fallingObj.body.velocity.x = walkSpeed : false;
+					this.input.keysPressed.DOWN ? fallingObj.body.velocity.z = walkSpeed : false;
 					
-					(lockCameraToObject.bind(this, fallingObj))();
+					(lockCameraToObject.bind(this))(fallingObj);
+					lockFlashLightToObject(fallingObj);
 				},
 			});
 			

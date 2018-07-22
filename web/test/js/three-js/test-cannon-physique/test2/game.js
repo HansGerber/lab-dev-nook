@@ -168,10 +168,41 @@ var game = window.game || {
 				size[1] * 2,
 				size[2] * 2
 			)
-			var material = new THREE.MeshBasicMaterial({
-				color: objectConfig.color || 0x00ff00,
+			
+			var materialConfig = {
+				color: objectConfig.color || 0xffffff,
 				wireframe: objectConfig.wireframe || false
-			})
+			}
+			
+			if("textureURL" in objectConfig){
+				var texture = new THREE.TextureLoader().load( objectConfig.textureURL );
+				texture.wrapS = objectConfig.wrapS || THREE.RepeatWrapping;
+				texture.wrapT = objectConfig.wrapT || THREE.RepeatWrapping;
+				texture.repeat.set(
+					objectConfig.repeatS || 1,
+					objectConfig.repeatT || 1,
+				);
+				materialConfig.map = texture;
+			}
+			
+			var material = null;
+			if("materialType" in objectConfig){
+				switch(objectConfig.materialType){
+					case 'phong':
+						material = new THREE.MeshPhongMaterial(materialConfig);
+					break;
+					case 'lambert':
+						material = new THREE.MeshLambertMaterial(materialConfig);
+					break;
+					case 'basic':
+					default:
+						material = new THREE.MeshBasicMaterial(materialConfig);
+					break;	
+				}
+			} else {
+				material = new THREE.MeshBasicMaterial(materialConfig);
+			}
+			
 			var mesh = new THREE.Mesh(
 				geometry,
 				material
@@ -182,6 +213,8 @@ var game = window.game || {
 			
 			object.canJump = (function() {
 				var raycaster = new THREE.Raycaster();
+				
+				// TODO ...
 			}).bind({
 				object: object,
 				game: this
