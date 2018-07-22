@@ -14,14 +14,14 @@
 		<script src="game.js"></script>
 		<script>
 		
-		var fallingObj,
+		var freeObject,
 			groundObj, groundObj2,
 			wallObject1, wallObject2, wallObject3, wallObject4, wallObject5,
 			flashLight;
 		
 		function jump(){
 			// TODO: prevent when not on ground
-			fallingObj.body.velocity.y = 5;
+			freeObject.body.velocity.y = 5;
 		}
                 
 		function lockCameraToObject(object){
@@ -51,18 +51,18 @@
 					// MOVABLE OBJECT
 					//
 					
-					fallingObj = this.addObject({
-						name: 'fallling',
+					freeObject = this.addObject({
+						name: 'freeObject',
 						physContactMaterial: 'freeObject',
 						mass: 4,
 						//wireframe: true,
 						size: [2, 3, 2],
 					});
 					
-					fallingObj.body.position.y = 10;
-					fallingObj.body.fixedRotation = true;
-					fallingObj.body.updateMassProperties();
-					fallingObj.body.addEventListener("collide", function(e) {
+					freeObject.body.position.y = 4;
+					freeObject.body.fixedRotation = true;
+					freeObject.body.updateMassProperties();
+					freeObject.body.addEventListener("collide", function(e) {
 						// console.log("object collided", e);
 					}, false);
 					
@@ -203,15 +203,15 @@
 				renderLogic: function() {
 					var walkSpeed = 5;
 					
-					fallingObj.body.velocity.x = 0;
-					fallingObj.body.velocity.z = 0;
-					this.input.keysPressed.LEFT ? fallingObj.body.velocity.x = -walkSpeed : false;
-					this.input.keysPressed.UP ? fallingObj.body.velocity.z = -walkSpeed : false;
-					this.input.keysPressed.RIGHT ? fallingObj.body.velocity.x = walkSpeed : false;
-					this.input.keysPressed.DOWN ? fallingObj.body.velocity.z = walkSpeed : false;
+					freeObject.body.velocity.x = 0;
+					freeObject.body.velocity.z = 0;
+					this.input.keysPressed.LEFT ? freeObject.body.velocity.x = -walkSpeed : false;
+					this.input.keysPressed.UP ? freeObject.body.velocity.z = -walkSpeed : false;
+					this.input.keysPressed.RIGHT ? freeObject.body.velocity.x = walkSpeed : false;
+					this.input.keysPressed.DOWN ? freeObject.body.velocity.z = walkSpeed : false;
 					
-					(lockCameraToObject.bind(this))(fallingObj);
-					lockFlashLightToObject(fallingObj);
+					(lockCameraToObject.bind(this))(freeObject);
+					lockFlashLightToObject(freeObject);
 				},
 			});
 			
