@@ -10,6 +10,8 @@
 	</head>
 	<body>
 		<script src="../../three.js-master/build/three.min.js"></script>
+                <script src="mtl-loader.js"></script>
+                <script src="obj-loader.js"></script>
 		<script src="../../cannon.js/build/cannon.min.js"></script>
 		<script src="game.js"></script>
 		<script>
@@ -25,18 +27,32 @@
 		}
                 
 		function lockCameraToObject(object){
+                    if(object.body !== null){
 			this.camera.position.x = object.body.position.x;
 			this.camera.position.y = object.body.position.y + 20;
 			this.camera.position.z = object.body.position.z + 20;
-			this.camera.rotation.x = -(Math.PI / 4);
+                    } else if(object.mesh !== null) {
+                        this.camera.position.x = object.mesh.position.x;
+			this.camera.position.y = object.mesh.position.y + 20;
+			this.camera.position.z = object.mesh.position.z + 20;
+                    }
+                    this.camera.rotation.x = -(Math.PI / 4);
 		}
 		
 		function lockFlashLightToObject(object){
+                    if(object.body !== null){
 			flashLight.position.set(
-				object.body.position.x,
-				object.body.position.y,
-				object.body.position.z
+                            object.body.position.x,
+                            object.body.position.y,
+                            object.body.position.z
 			);
+                    } else if(object.mesh !== null) {
+                        flashLight.position.set(
+                            object.mesh.position.x,
+                            object.mesh.position.y,
+                            object.mesh.position.z
+			);
+                    }
 		}
 		
 		addEventListener("load", function() {
@@ -50,8 +66,8 @@
 					
 					// MOVABLE OBJECT
 					//
-					
-					freeObject = this.addObject({
+                                        
+					freeObject = this.addBox({
 						name: 'freeObject',
 						physContactMaterial: 'freeObject',
 						mass: 4,
@@ -59,6 +75,16 @@
 						size: [2, 3, 2],
 					});
 					
+                                        /* freeObject = this.addModel({
+                                            modelURL: 'model/muro.obj',
+                                            after: function() {
+                                                console.log('freeObject (2)', freeObject);
+                                                this.model.mesh.position.y = 4;
+                                            }
+                                        }); */
+                                        
+                                        console.log('freeObject (1)', freeObject);
+                                        
 					freeObject.body.position.y = 4;
 					freeObject.body.fixedRotation = true;
 					freeObject.body.updateMassProperties();
@@ -71,11 +97,12 @@
 							jump();
 						}
 					});
+                                        freeObject.mesh.position.y = 4;
 					
 					// GROUND OBJECTS
 					//
 					
-					groundObj = this.addObject({
+					groundObj = this.addBox({
 						name: 'ground1',
 						physContactMaterial: 'solidImmovable',
 						textureURL: 'img/silent_hill_floor_1_by_felhek.jpg',
@@ -87,7 +114,7 @@
 						size: [6, 0.5, 24],
 					});
 					
-					groundObj2 = this.addObject({
+					groundObj2 = this.addBox({
 						name: 'ground2',
 						physContactMaterial: 'solidImmovable',
 						textureURL: 'img/silent_hill_floor_1_by_felhek.jpg',
@@ -105,7 +132,7 @@
 					// WALL OBJECTS
 					//
 					
-					wallObject1 = this.addObject({
+					wallObject1 = this.addBox({
 						name: 'wall1',
 						physContactMaterial: 'solidImmovable',
 						textureURL: 'img/debris_by_darkwood67.jpg',
@@ -118,7 +145,7 @@
 						size: [1, 12, 18],
 					});
 					
-					wallObject2 = this.addObject({
+					wallObject2 = this.addBox({
 						name: 'wall2',
 						physContactMaterial: 'solidImmovable',
 						textureURL: 'img/debris_by_darkwood67.jpg',
@@ -131,7 +158,7 @@
 						size: [6, 12, 1],
 					});
 					
-					wallObject3 = this.addObject({
+					wallObject3 = this.addBox({
 						name: 'wall3',
 						physContactMaterial: 'solidImmovable',
 						textureURL: 'img/debris_by_darkwood67.jpg',
@@ -144,7 +171,7 @@
 						size: [1, 12, 6],
 					});
 					
-					wallObject4 = this.addObject({
+					wallObject4 = this.addBox({
 						name: 'wall4',
 						physContactMaterial: 'solidImmovable',
 						textureURL: 'img/debris_by_darkwood67.jpg',
@@ -157,7 +184,7 @@
 						size: [6, 12, 1],
 					});
 					
-					wallObject5 = this.addObject({
+					wallObject5 = this.addBox({
 						name: 'wall5',
 						physContactMaterial: 'solidImmovable',
 						textureURL: 'img/debris_by_darkwood67.jpg',
@@ -210,6 +237,11 @@
 					this.input.keysPressed.RIGHT ? freeObject.body.velocity.x = walkSpeed : false;
 					this.input.keysPressed.DOWN ? freeObject.body.velocity.z = walkSpeed : false;
 					
+                                        /* this.input.keysPressed.LEFT ? freeObject.mesh.position.x -= 0.1 : false;
+					this.input.keysPressed.UP ? freeObject.mesh.position.z -= 0.1 : false;
+					this.input.keysPressed.RIGHT ? freeObject.mesh.position.x += 0.1 : false;
+					this.input.keysPressed.DOWN ? freeObject.mesh.position.z += 0.1 : false; */
+                                        
 					(lockCameraToObject.bind(this))(freeObject);
 					lockFlashLightToObject(freeObject);
 				},

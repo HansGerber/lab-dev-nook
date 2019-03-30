@@ -116,7 +116,7 @@ var game = window.game || {
 			config.after.bind(this)();
 		}
 	},
-	addObject: function(objectConfig) {
+	addBox: function(objectConfig) {
 		
 		if(typeof this.objects[objectConfig.name] == "undefined"){
 			if(typeof objectConfig == "undefined"){
@@ -229,7 +229,42 @@ var game = window.game || {
 		}
 		return false;
 	},
-	removeObject: function(object) {
+        addModel: function(objectConfig) {
+            if(typeof this.objects[objectConfig.name] == "undefined"){
+                var object = {
+                    body: null,
+                    physContactMaterial: null,
+                    mesh: null,
+                }
+                
+                // object.mesh = new THREE.OBJLoader().load( objectConfig.modelURL );
+                
+                var loader = new THREE.OBJLoader();
+                loader.load(
+                    objectConfig.modelURL,
+                    (function ( object ) {
+                        console.log('obj loader success this' ,this);
+                        this.gameObject.mesh = object;
+                        this.game.scene.add( object );
+                        if(typeof this.config.after == "function"){
+                            this.config.after.call({
+                                model: this.gameObject,
+                            });
+                        }
+                    }).bind({
+                        game: this,
+                        config: objectConfig,
+                        gameObject: object
+                    }),
+                    function ( xhr ) { console.log("obj loader progress"); },
+                    function ( error ) { console.log("obj loader error"); }
+                );
+        
+                return object;
+            }
+            return false;
+        },
+	remove: function(object) {
 		
 	},
 	addContactMaterial: function(m1, m2, contactMaterialConfig){

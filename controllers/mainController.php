@@ -81,7 +81,7 @@
     
     function uploadListTestController(){
         $uploads = runModel("getUploads");
-        die("access disabled in controler");
+        //die("access disabled in controler");
         echo getView("upload-list-test.php", array (
             "uploads" => $uploads,
         ));
