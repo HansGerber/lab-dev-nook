@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Retarded Text Generator</title>
+		<style>
+			* {
+				box-sizing: border-box;
+			}
+			body {
+				font: 100%/1.5 arial;
+			}
+			h1, h2, h3 {
+				font-weight: normal;
+				text-transform: uppercase;
+			}
+			input,
+			textarea {
+				border: solid 1px #ddd;
+				border-radius: 5px;
+				padding: 4px;
+			}
+			textarea {
+				height: 100px;
+			}
+			.w100 {
+				width: 100%;
+			}
+			.row {
+				margin-bottom: 5px;
+			}
+		</style>
+	</head>
+	<body>
+		<h3>Retarded Text Generator</h3>
+		<div class="row">
+			<textarea id="in" class="w100" placeholder="type your text here ..."></textarea>
+		</div>
+		<div class="row">
+			<textarea id="out" class="w100" placeholder="result ..."></textarea>
+		</div>
+		<script>
+			var txtIn = document.getElementById("in")
+			var txtOut = document.getElementById("out")
+		
+			function generateText(value) {
+				var outText = ''
+				value.split('').map(function(letter) {
+					outText += Math.ceil(Math.random() * 2) == 1 ? letter.toUpperCase() : letter.toLowerCase()
+				})
+				txtOut.value = outText
+			}
+		
+			txtIn.addEventListener("input", function() {
+				generateText(this.value)
+			}, false)
+		</script>
+	</body>
+</html>
