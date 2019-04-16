@@ -16,12 +16,38 @@
         var emitter = particles.createEmitter({
             speed: 100,
             scale: { start: 1, end: 0 },
-            blendMode: 'ADD'
+            // blendMode: 'SKIP_CHECK',
+            // blendMode: 'NORMAL',
+            blendMode: 'ADD',
+            // blendMode: 'MULTIPLY',
+            // blendMode: 'SCREEN',
+            // blendMode: 'OVERLAY',
+            // blendMode: 'DARKEN',
+            // blendMode: 'LIGHTEN',
+            // blendMode: 'COLOR_DODGE',
+            // blendMode: 'COLOR_BURN',
+            // blendMode: 'HARD_LIGHT',
+            // blendMode: 'SOFT_LIGHT',
+            // blendMode: 'DIFFERENCE',
+            // blendMode: 'EXCLUSION',
+            // blendMode: 'HUE',
+            // blendMode: 'SATURATION',
+            // blendMode: 'COLOR',
+            // blendMode: 'LUMINOSITY',
+            // blendMode: 'ERASE',
+            // blendMode: 'SOURCE_IN',
+            // blendMode: 'SOURCE_OUT',
+            // blendMode: 'SOURCE_ATOP',
+            // blendMode: 'DESTINATION_OVER',
+            // blendMode: 'DESTINATION_IN',
+            // blendMode: 'DESTINATION_OUT',
+            // blendMode: 'DESTINATION_ATOP',
+			// ...
         });
 
         var logo = this.physics.add.image(400, 100, 'logo');
 
-        logo.setVelocity(100, 200);
+        logo.setVelocity(100, 0);
         logo.setBounce(1, 1);
         logo.setCollideWorldBounds(true);
 
