@@ -1,0 +1,102 @@
+<html>
+	<head>
+		<title>Stronghold Coordinate Calculator</title>
+		<style>
+			label.row {
+				display: block;
+				margin-bottom: 5px;
+			}
+		</style>
+	</head>
+	<body>
+		<div>
+			<div id="calculatorForm">
+				<fieldset>
+					<legend>Point 1</legend>
+					<label class="row">
+						x
+						<input type="text" name="txt_x0" id="txt_x0" value="34" />
+					</label>
+					<label class="row">
+						z
+						<input type="text" name="txt_z0" id="txt_z0" value="-278" />
+					</label>
+					<label class="row">
+						f
+						<input type="text" name="txt_f0" id="txt_f0" value="84.3" />
+					</label>
+				</fieldset>
+				<fieldset>
+					<legend>Point 2</legend>
+					<label class="row">
+						x
+						<input type="text" name="txt_x1" id="txt_x1" value="-9" />
+					</label>
+					<label class="row">
+						z
+						<input type="text" name="txt_z1" id="txt_z1" value="155" />
+					</label>
+					<label class="row">
+						f
+						<input type="text" name="txt_f1" id="txt_f1" value="98.2" />
+					</label>
+				</fieldset>
+				<button id="btnSubmit">Get Coords</button>
+			</div>
+		</div>
+		<script>
+			// formular template: https://www.youtube.com/watch?v=5zJ4aiGChgw
+			function calculate(point1, point2) {
+				var x0 = parseInt(point1.x),
+					z0 = parseInt(point1.z),
+					f0 = parseFloat(point1.f),
+					x1 = parseInt(point2.x),
+					z1 = parseInt(point2.z),
+					f1 = parseFloat(point2.f)
+					
+				var deg2rad = Math.PI/180;
+
+				var deg0 = f0 > -90 ? f0 + 90 : f0 + 450,
+					deg1 = f1 > -90 ? f1 + 90 : f1 + 450
+
+				var s0 = Math.tan(deg0 * deg2rad),
+					s1 = Math.tan(deg1 * deg2rad)
+
+				var xs = (z1 - z0 + s0 * x0 - s1 * x1) / (s0 - s1)
+				var zs = s0 * xs + z0 - s0 * x0
+				
+				var strongHoldPoint = {
+					x: xs,
+					z: zs,
+				}
+				
+				console.log(point1, point2)
+				console.log(deg0, deg1)
+				console.log(s0, s1)
+				console.log(xs, zs)
+
+				return strongHoldPoint
+			}
+			
+			btnSubmit.addEventListener("click", function() {
+				if(txt_x0.value && txt_z0.value && txt_f0.value && txt_x1.value && txt_z1.value && txt_f1.value) {
+					var point1 = {
+							x: txt_x0.value,
+							z: txt_z0.value,
+							f: txt_f0.value,
+						},
+						point2 = {
+							x: txt_x1.value,
+							z: txt_z1.value,
+							f: txt_f1.value,
+						}
+						
+					var result = calculate(point1, point2)
+					alert(JSON.stringify(result))
+				} else {
+					alert("invalid")
+				}
+			}, false)
+		</script>
+	</body>
+</html>
