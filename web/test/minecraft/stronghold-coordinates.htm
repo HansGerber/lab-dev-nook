@@ -47,11 +47,11 @@
 		<script>
 			// formular template: https://www.youtube.com/watch?v=5zJ4aiGChgw
 			function calculate(point1, point2) {
-				var x0 = parseInt(point1.x),
-					z0 = parseInt(point1.z),
+				var x0 = parseFloat(point1.x),
+					z0 = parseFloat(point1.z),
 					f0 = parseFloat(point1.f),
-					x1 = parseInt(point2.x),
-					z1 = parseInt(point2.z),
+					x1 = parseFloat(point2.x),
+					z1 = parseFloat(point2.z),
 					f1 = parseFloat(point2.f)
 					
 				var deg2rad = Math.PI/180;
