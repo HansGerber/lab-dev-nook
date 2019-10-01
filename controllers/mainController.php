@@ -1,6 +1,7 @@
 <?php
 
     function indexController() {
+	$truncateResult = runModel("truncateUploads");
         echo getView("home.php");
     }
 
