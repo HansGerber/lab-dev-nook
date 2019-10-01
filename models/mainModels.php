@@ -55,3 +55,16 @@ function getUploadsModel($params){
     
     return $result;
 }
+
+function truncateUploadsModel($params) {
+    $result = array ("success" => false);
+    $c = $params["sql"]["connection"];
+    $db = $params["sql"]["db"];
+    if($res = $c->query("truncate $db.uploads")){
+        $result["success"] = true;
+    } else {
+        $result["error"] = $c->error;
+    }
+
+    return $result;
+}
